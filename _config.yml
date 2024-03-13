@@ -16,9 +16,9 @@ minimal_mistakes_skin    : "neon" # "air", "aqua", "contrast", "dark", "dirt", "
 
 # Site Settings
 locale                   : "fr-CA"
-title                    : "GUM365 - Groupe des Usagers de Microsoft 365"
-title_separator          : "-"
-subtitle                 : # site tagline that appears below site title in masthead
+title                    : "GUM365"
+title_separator          : "|"
+subtitle                 : "Groupe des Usagers de Microsoft 365" # site tagline that appears below site title in masthead
 name                     : "Your Name"
 description              : "An amazing website."
 url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"

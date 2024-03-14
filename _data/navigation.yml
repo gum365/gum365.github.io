@@ -11,9 +11,9 @@ main:
   - title: "Sitemap"
     url: /sitemap/
   - title: "Contact"
-
-  - title: "Ressources"
-  - title: "Partenaires"
-  - title: "FAQ"
+      children:
+        - title: "Ressources"
+        - title: "Partenaires"
+        - title: "FAQ"
   - title: "Adhésion"
   - title: "Conditions d'utilisation"

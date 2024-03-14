@@ -4,7 +4,7 @@ defaults:
       path: "/"
       type: pages
     values:
-      layout: single
+      layout: home
       author_profile: true
 
 # Bienvenue dans la Communauté Microsoft 365 du Québec !

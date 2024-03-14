@@ -1,9 +1,9 @@
 # main links
 main:
   - title: "Accueil"
-    url: /home
+    url: /
   - title: "À propos"
-    url: https://mmistakes.github.io/minimal-mistakes/about/
+    url: /about/
   - title: "Blog"
     url: /year-archive/
   - title: "Événements"

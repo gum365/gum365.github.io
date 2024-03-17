@@ -4,15 +4,15 @@ main:
     url: /
   - title: "À propos"
     url: /about/
-  - title: "Blog"
-    url: /year-archive/
+#  - title: "Blog"
+#    url: /year-archive/
   - title: "Événements"
     url: /collection-archive/
-  - title: "Sitemap"
-    url: /sitemap/
+#  - title: "Sitemap"
+#    url: /sitemap/
   - title: "Contact"
-  - title: "Ressources"
+#  - title: "Ressources"
   - title: "Partenaires"
-  - title: "FAQ"
-  - title: "Adhésion"
-  - title: "Conditions d'utilisation"
+#  - title: "FAQ"
+#  - title: "Adhésion"
+#  - title: "Conditions d'utilisation"

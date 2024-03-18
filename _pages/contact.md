@@ -1,5 +1,6 @@
 ---
 layout: single
+title: "Contactez-nous"
 permalink: /contact/
 author_profile: false
 ---

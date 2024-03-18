@@ -7,12 +7,14 @@ main:
 #  - title: "Blog"
 #    url: /year-archive/
   - title: "Événements"
-    url: /collection-archive/
+    url: /events/
 #  - title: "Sitemap"
 #    url: /sitemap/
   - title: "Contact"
+    url: /contacts/
 #  - title: "Ressources"
   - title: "Partenaires"
+      url: /partners/
 #  - title: "FAQ"
 #  - title: "Adhésion"
 #  - title: "Conditions d'utilisation"

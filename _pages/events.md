@@ -1,6 +1,6 @@
 ---
 layout: single
-permalink: /evenements/
+permalink: /events/
 author_profile: false
 ---
 # À propos

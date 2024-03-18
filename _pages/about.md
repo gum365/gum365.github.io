@@ -11,7 +11,7 @@ header:
     - label: "Download"
       url: "https://github.com"
 ---
-# À propos
+
 Le groupe d'usagers SharePoint Québec est une communauté de partage de connaissances autour des technologies SharePoint. Elle regroupe des décideurs, des utilisateurs passionés, des développeurs et des architectes. Deux chapitres composent ce groupe: Montréal et Québec
 
 1. Montréal

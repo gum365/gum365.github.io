@@ -11,10 +11,10 @@ main:
 #  - title: "Sitemap"
 #    url: /sitemap/
   - title: "Contact"
-    url: /contacts/
+    url: /contact/
 #  - title: "Ressources"
-  - title: "Partenaires"
-      url: /partners/
+#  - title: "Partenaires"
+#      url: /partners/
 #  - title: "FAQ"
 #  - title: "Adhésion"
 #  - title: "Conditions d'utilisation"

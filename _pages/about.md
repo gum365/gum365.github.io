@@ -1,7 +1,7 @@
 ---
-layout: page
+layout: single
 permalink: /about/
-author_profile: true
+author_profile: false
 excerpt: "This post should [...]"
 header:
   overlay_image: /assets/images/unsplash-image-1.jpg

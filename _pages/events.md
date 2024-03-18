@@ -1,5 +1,6 @@
 ---
 layout: single
+title: "Évènements"
 permalink: /events/
 author_profile: false
 ---

@@ -1,5 +1,6 @@
 ---
 layout: home
+title: Bienvenue dans la Communauté Microsoft 365 du Québec !
 permalink: /
 author_profile: false
 excerpt: "This post should [...]"
@@ -11,8 +12,6 @@ header:
     - label: "Download"
       url: "https://github.com"
 ---
-
-# Bienvenue dans la Communauté Microsoft 365 du Québec !
 
 Nous sommes ravis de vous accueillir sur notre site dédié à la communauté des utilisateurs de Microsoft 365 dans la province du Québec. Notre mission est de rassembler les professionnels, les entreprises et les passionnés de technologie pour partager des connaissances, échanger des idées et découvrir les dernières innovations de la suite Microsoft 365.
 

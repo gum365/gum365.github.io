@@ -12,3 +12,5 @@ Restez informé des dernières tendances, découvrez les nouvelles fonctionnalit
 Consultez régulièrement notre calendrier pour ne rien manquer des évènements à venir, et n'hésitez pas à nous contacter si vous avez des questions ou si vous souhaitez proposer un évènement.
 
 Nous avons hâte de vous retrouver lors de nos prochaines rencontres !
+
+- [CollabDays 2024 Montréal](/collabdays2024/).

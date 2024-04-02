@@ -17,7 +17,7 @@ Nous avons hâte de vous retrouver lors de nos prochaines rencontres !
 {% for event in site.events %}
 
 <a href="{{ event.url | prepend: site.baseurl }}">
-  <h2>{{ event.title }}</h2> {{ event.url | prepend: site.baseurl }}
+  <h2>{{ event.title }}</h2> {{ event.url }} et {{ site.baseurl }}
 </a>
 
 <p class="post-excerpt">{{ event.description | truncate: 160 }}</p>

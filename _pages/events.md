@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: default
 title: "Évènements"
 permalink: /events/
 author_profile: false
@@ -14,3 +14,13 @@ Consultez régulièrement notre calendrier pour ne rien manquer des évènements
 Nous avons hâte de vous retrouver lors de nos prochaines rencontres !
 
 - [CollabDays 2024 Montréal](/collabdays2024/).
+
+{% for events in site.events %}
+
+<a href="{{ events.url | prepend: site.baseurl }}">
+  <h2>{{ events.title }}</h2>
+</a>
+
+<p class="post-excerpt">{{ events.description | truncate: 160 }}</p>
+
+{% endfor %} 

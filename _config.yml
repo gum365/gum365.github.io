@@ -287,7 +287,7 @@ compress_html:
 collections:
   events:
     output: true
-    permalink: /:collection/:path/
+    permalink: /events/:path/
 
 # Defaults
 defaults:
@@ -302,11 +302,11 @@ defaults:
       comments: # true
       share: true
       related: true
-  # _portfolio
+  # _events
   - scope:
       path: ""
-      type: portfolio
+      type: events
     values:
-      layout: single
+      layout: events
       author_profile: false
       share: true

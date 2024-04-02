@@ -1,8 +1,7 @@
 ---
 layout: default
-title: "Évènements"
+title: Évènements
 permalink: /events/
-author_profile: false
 ---
 
 Nous sommes ravis de vous présenter notre calendrier d'évènements, où vous trouverez une liste détaillée de toutes nos rencontres, ateliers, webinaires et conférences à venir. Chez nous, l'apprentissage continu et le partage des connaissances sont au cœur de notre communauté. Nos évènements sont conçus pour répondre aux besoins variés de nos membres, que vous soyez débutant ou utilisateur expérimenté de Microsoft 365.
@@ -18,7 +17,7 @@ Nous avons hâte de vous retrouver lors de nos prochaines rencontres !
 {% for events in site.events %}
 
 <a href="{{ events.url | prepend: site.baseurl }}">
-  <h2>{{ events.title }}</h2>
+  <h2>{{ events.title }}</h2> {{ events.url }}
 </a>
 
 <p class="post-excerpt">{{ events.description | truncate: 160 }}</p>

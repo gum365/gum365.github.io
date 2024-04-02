@@ -14,12 +14,12 @@ Nous avons hâte de vous retrouver lors de nos prochaines rencontres !
 
 - [CollabDays 2024 Montréal](/collabdays2024/).
 
-{% for events in site.events %}
+{% for event in site.events %}
 
-<a href="{{ events.url | prepend: site.baseurl }}">
-  <h2>{{ events.title }}</h2> {{ events.url }}
+<a href="{{ event.url | prepend: site.baseurl }}">
+  <h2>{{ event.title }}</h2> {{ event.url }}
 </a>
 
-<p class="post-excerpt">{{ events.description | truncate: 160 }}</p>
+<p class="post-excerpt">{{ event.description | truncate: 160 }}</p>
 
 {% endfor %} 

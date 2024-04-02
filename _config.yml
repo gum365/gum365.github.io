@@ -288,6 +288,7 @@ collections:
   events:
     output: true
     permalink: /events/:path/
+    sort_by: eventdate
 
 # Defaults
 defaults:

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gum365.github.io/sitemap-index.xml

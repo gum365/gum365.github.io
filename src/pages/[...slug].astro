@@ -1,0 +1,17 @@
+---
+import PageView from '../components/PageView.astro';
+import { getPages } from '../lib/site';
+
+export async function getStaticPaths() {
+  const pages = await getPages();
+  return pages
+    .filter((page) => !['', 'en-ca'].includes(page.data.slug))
+    .map((page) => ({
+      params: { slug: page.data.slug },
+      props: { page, pages },
+    }));
+}
+
+const { page, pages } = Astro.props;
+---
+<PageView page={page} pages={pages} />

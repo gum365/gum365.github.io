@@ -1,0 +1,54 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAlternate, getNav, hrefFor, type PageEntry } from '../lib/site';
+
+interface Props {
+  page: PageEntry;
+  pages: PageEntry[];
+}
+
+const { page, pages } = Astro.props;
+const alternate = getAlternate(page, pages);
+const nav = getNav(page, pages);
+const { Content } = await render(page);
+const currentHref = hrefFor(page);
+const alternateHref = alternate ? hrefFor(alternate) : (page.data.language === 'fr-CA' ? '/en-ca/' : '/');
+---
+
+<BaseLayout
+  title={page.data.title}
+  description={page.data.description}
+  lang={page.data.language}
+  nav={nav}
+  currentHref={currentHref}
+  alternateHref={alternateHref}
+>
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">{page.data.hero_eyebrow}</p>
+        <h1>{page.data.hero_title}</h1>
+        <p class="hero-lead">{page.data.hero_lead}</p>
+        {(page.data.primary_label || page.data.secondary_label) && (
+          <div class="hero-actions">
+            {page.data.primary_label && page.data.primary_url && (
+              <a class="button button-primary" href={page.data.primary_url}>{page.data.primary_label}</a>
+            )}
+            {page.data.secondary_label && page.data.secondary_url && (
+              <a class="button button-secondary" href={page.data.secondary_url}>{page.data.secondary_label}</a>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <article class="container content-shell">
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

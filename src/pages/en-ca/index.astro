@@ -1,0 +1,9 @@
+---
+import PageView from '../../components/PageView.astro';
+import { getPages } from '../../lib/site';
+
+const pages = await getPages();
+const page = pages.find((entry) => entry.data.slug === 'en-ca' && entry.data.language === 'en-CA');
+if (!page) throw new Error('Missing EN_CA home page in OKF.');
+---
+<PageView page={page} pages={pages} />

@@ -1,6 +1,6 @@
 # GUM365 — Astro + Velocity + OKF
 
-Site GitHub Pages de la communauté GUM365. Ce dépôt est destiné à être maintenu comme fork de `southwellmedia/velocity`, avec une personnalisation complète du contenu et de la couche OKF.
+Site GitHub Pages de la communauté GUM365. Ce dépôt est un fork de `southwellmedia/velocity`, avec une personnalisation complète du contenu et de la couche OKF.
 
 ## Architecture
 
@@ -10,7 +10,7 @@ Site GitHub Pages de la communauté GUM365. Ce dépôt est destiné à être mai
 - **FR_CA** comme source de vérité éditoriale.
 - **EN_CA** comme traduction liée par `translation_key`.
 - Mode **clair / sombre** persistant.
-- Déploiement automatique vers **GitHub Pages** depuis `main`.
+- Déploiement vers **GitHub Pages** depuis `main`, avec déclenchement automatique sur les mises à jour et déclenchement manuel disponible depuis GitHub Actions.
 
 Les pages ne sont pas dupliquées dans `src/content`. Astro charge directement les fichiers Markdown OKF depuis `knowledge/okf`.
 

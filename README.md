@@ -39,3 +39,8 @@ pnpm install
 pnpm dev
 pnpm build
 ```
+
+
+## Déploiement GitHub Pages
+
+Le site est construit avec Astro par le workflow `.github/workflows/deploy.yml`. Dans **Settings → Pages**, la source doit être **GitHub Actions** et non **Deploy from a branch**.

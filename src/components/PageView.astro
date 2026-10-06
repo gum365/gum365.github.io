@@ -1,6 +1,7 @@
 ---
 import { render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import MobilizonEvents from './MobilizonEvents.astro';
 import { getAlternate, getNav, hrefFor, type PageEntry } from '../lib/site';
 
 interface Props {
@@ -45,6 +46,10 @@ const alternateHref = alternate ? hrefFor(alternate) : (page.data.language === '
       </div>
     </div>
   </section>
+
+  {page.data.translation_key === 'events' && (
+    <MobilizonEvents language={page.data.language} />
+  )}
 
   <article class="container content-shell">
     <div class="prose">

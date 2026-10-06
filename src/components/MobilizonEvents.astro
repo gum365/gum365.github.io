@@ -1,0 +1,443 @@
+---
+interface Props {
+  language?: 'fr-CA' | 'en-CA';
+}
+
+const { language = 'fr-CA' } = Astro.props;
+const isEnglish = language === 'en-CA';
+
+const copy = isEnglish
+  ? {
+      eyebrow: 'Live community calendar',
+      title: 'Upcoming GUM365 events',
+      intro:
+        'Upcoming events are loaded directly from the GUM365 Mobilizon platform. The agenda stays current without duplicating event data in this site.',
+      openPlatform: 'Open the full calendar on gum365.ca',
+      loading: 'Loading upcoming events…',
+      empty: 'No upcoming public events are currently published on gum365.ca.',
+      error:
+        'The live Mobilizon calendar could not be loaded. You can still browse the complete event platform directly.',
+      readEvent: 'View event',
+      locationFallback: 'Location to be confirmed',
+      organizerPrefix: 'Organized by',
+    }
+  : {
+      eyebrow: 'Agenda communautaire en direct',
+      title: 'Prochains événements GUM365',
+      intro:
+        'Les événements à venir sont chargés directement depuis la plateforme Mobilizon de GUM365. L’agenda reste ainsi à jour sans dupliquer les données des événements dans ce site.',
+      openPlatform: 'Ouvrir l’agenda complet sur gum365.ca',
+      loading: 'Chargement des événements à venir…',
+      empty: 'Aucun événement public à venir n’est actuellement publié sur gum365.ca.',
+      error:
+        'L’agenda Mobilizon n’a pas pu être chargé. Vous pouvez toujours consulter directement la plateforme complète des événements.',
+      readEvent: 'Voir l’événement',
+      locationFallback: 'Lieu à confirmer',
+      organizerPrefix: 'Organisé par',
+    };
+---
+
+<section class="mobilizon-section" aria-labelledby="mobilizon-events-title">
+  <div class="container">
+    <div class="mobilizon-heading">
+      <div class="mobilizon-copy">
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <h2 id="mobilizon-events-title">{copy.title}</h2>
+        <p>{copy.intro}</p>
+      </div>
+
+      <a
+        class="button button-secondary mobilizon-platform-link"
+        href="https://gum365.ca"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {copy.openPlatform}
+      </a>
+    </div>
+
+    <div
+      class="mobilizon-feed"
+      data-mobilizon-events
+      data-endpoint="https://gum365.ca/api"
+      data-instance="https://gum365.ca"
+      data-locale={isEnglish ? 'en-CA' : 'fr-CA'}
+      data-loading={copy.loading}
+      data-empty={copy.empty}
+      data-error={copy.error}
+      data-read-event={copy.readEvent}
+      data-location-fallback={copy.locationFallback}
+      data-organizer-prefix={copy.organizerPrefix}
+    >
+      <div data-state="loading" class="mobilizon-state" role="status" aria-live="polite">
+        {copy.loading}
+      </div>
+
+      <div data-state="events" class="mobilizon-grid" hidden></div>
+
+      <div data-state="empty" class="mobilizon-state" hidden>
+        <p>{copy.empty}</p>
+        <a href="https://gum365.ca" target="_blank" rel="noopener noreferrer">
+          {copy.openPlatform}
+        </a>
+      </div>
+
+      <div data-state="error" class="mobilizon-state" role="status" aria-live="polite" hidden>
+        <p>{copy.error}</p>
+        <a href="https://gum365.ca" target="_blank" rel="noopener noreferrer">
+          {copy.openPlatform}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  const MOBILIZON_QUERY = `
+    query SearchEvents($beginsOn: DateTime, $eventPage: Int, $limit: Int) {
+      searchEvents(
+        beginsOn: $beginsOn
+        page: $eventPage
+        limit: $limit
+      ) {
+        total
+        elements {
+          id
+          title
+          uuid
+          beginsOn
+          status
+          picture {
+            url
+          }
+          physicalAddress {
+            description
+            locality
+            region
+          }
+          organizerActor {
+            name
+            preferredUsername
+          }
+        }
+      }
+    }
+  `;
+
+  function setMobilizonState(root, state) {
+    root.querySelectorAll('[data-state]').forEach((element) => {
+      element.hidden = element.getAttribute('data-state') !== state;
+    });
+  }
+
+  function textElement(tag, className, text) {
+    const element = document.createElement(tag);
+    element.className = className;
+    element.textContent = text;
+    return element;
+  }
+
+  function getLocation(event, fallback) {
+    const address = event?.physicalAddress;
+    const parts = [address?.description, address?.locality, address?.region].filter(Boolean);
+    return parts.length > 0 ? [...new Set(parts)].join(' · ') : fallback;
+  }
+
+  function renderMobilizonCard(event, root) {
+    const instance = root.dataset.instance || 'https://gum365.ca';
+    const locale = root.dataset.locale || 'fr-CA';
+    const readEvent = root.dataset.readEvent || 'Voir l’événement';
+    const locationFallback = root.dataset.locationFallback || 'Lieu à confirmer';
+    const organizerPrefix = root.dataset.organizerPrefix || 'Organisé par';
+
+    const article = document.createElement('article');
+    article.className = 'mobilizon-card';
+
+    if (event.picture?.url) {
+      const image = document.createElement('img');
+      image.src = event.picture.url;
+      image.alt = '';
+      image.loading = 'lazy';
+      image.className = 'mobilizon-card-image';
+      article.appendChild(image);
+    }
+
+    const body = document.createElement('div');
+    body.className = 'mobilizon-card-body';
+
+    const date = new Date(event.beginsOn);
+    const formatter = new Intl.DateTimeFormat(locale, {
+      dateStyle: 'long',
+      timeStyle: 'short',
+      timeZone: 'America/Toronto',
+    });
+
+    body.appendChild(textElement('p', 'mobilizon-date', formatter.format(date)));
+
+    const heading = document.createElement('h3');
+    heading.className = 'mobilizon-title';
+    const titleLink = document.createElement('a');
+    titleLink.href = `${instance}/events/${event.uuid}`;
+    titleLink.target = '_blank';
+    titleLink.rel = 'noopener noreferrer';
+    titleLink.textContent = event.title;
+    heading.appendChild(titleLink);
+    body.appendChild(heading);
+
+    body.appendChild(
+      textElement('p', 'mobilizon-location', getLocation(event, locationFallback))
+    );
+
+    const organizer = event.organizerActor?.name || event.organizerActor?.preferredUsername;
+    if (organizer) {
+      body.appendChild(
+        textElement('p', 'mobilizon-organizer', `${organizerPrefix} ${organizer}`)
+      );
+    }
+
+    const action = document.createElement('a');
+    action.href = `${instance}/events/${event.uuid}`;
+    action.target = '_blank';
+    action.rel = 'noopener noreferrer';
+    action.className = 'mobilizon-action';
+    action.textContent = readEvent;
+    body.appendChild(action);
+
+    article.appendChild(body);
+    return article;
+  }
+
+  async function loadMobilizonEvents(root) {
+    if (root.dataset.loaded === 'true') return;
+    root.dataset.loaded = 'true';
+
+    const endpoint = root.dataset.endpoint;
+    if (!endpoint) {
+      setMobilizonState(root, 'error');
+      return;
+    }
+
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 8000);
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          operationName: 'SearchEvents',
+          query: MOBILIZON_QUERY,
+          variables: {
+            beginsOn: new Date().toISOString(),
+            eventPage: 1,
+            limit: 9,
+          },
+        }),
+        signal: controller.signal,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Mobilizon API returned ${response.status}`);
+      }
+
+      const payload = await response.json();
+      if (payload.errors?.length) {
+        throw new Error(payload.errors.map((error) => error.message).join('; '));
+      }
+
+      const events = (payload.data?.searchEvents?.elements || [])
+        .filter((event) =>
+          event?.uuid &&
+          event?.title &&
+          event?.beginsOn &&
+          event?.status !== 'CANCELLED'
+        )
+        .sort((a, b) => new Date(a.beginsOn).getTime() - new Date(b.beginsOn).getTime());
+
+      if (events.length === 0) {
+        setMobilizonState(root, 'empty');
+        return;
+      }
+
+      const list = root.querySelector('[data-state="events"]');
+      if (!list) throw new Error('Mobilizon event list container is missing.');
+
+      list.replaceChildren(...events.map((event) => renderMobilizonCard(event, root)));
+      setMobilizonState(root, 'events');
+    } catch (error) {
+      console.warn('Unable to load Mobilizon events from gum365.ca', error);
+      setMobilizonState(root, 'error');
+    } finally {
+      window.clearTimeout(timeout);
+    }
+  }
+
+  function initMobilizonEvents() {
+    document.querySelectorAll('[data-mobilizon-events]').forEach((root) => {
+      if (root instanceof HTMLElement) loadMobilizonEvents(root);
+    });
+  }
+
+  initMobilizonEvents();
+  document.addEventListener('astro:page-load', initMobilizonEvents);
+</script>
+
+<style>
+  .mobilizon-section {
+    border-bottom: 1px solid var(--border);
+    background: var(--background);
+    padding-block: clamp(3.5rem, 7vw, 5.5rem);
+  }
+
+  .mobilizon-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .mobilizon-copy {
+    max-width: 760px;
+  }
+
+  .mobilizon-copy h2 {
+    margin: 0;
+    font-family: var(--theme-font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -.035em;
+  }
+
+  .mobilizon-copy > p:last-child {
+    margin: 1rem 0 0;
+    color: var(--foreground-muted);
+    font-size: 1.05rem;
+  }
+
+  .mobilizon-platform-link {
+    flex: 0 0 auto;
+  }
+
+  .mobilizon-feed {
+    margin-top: 2rem;
+  }
+
+  .mobilizon-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .mobilizon-state {
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) * 1.5);
+    background: var(--background-secondary);
+    padding: 1.5rem;
+    color: var(--foreground-muted);
+  }
+
+  .mobilizon-state p {
+    margin: 0;
+  }
+
+  .mobilizon-state a {
+    display: inline-flex;
+    margin-top: 1rem;
+    color: var(--accent);
+    font-weight: 750;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  :global(.mobilizon-card) {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) * 1.5);
+    background: var(--card);
+    box-shadow: 0 14px 30px color-mix(in oklab, var(--foreground) 5%, transparent);
+    transition: transform .18s ease, border-color .18s ease;
+  }
+
+  :global(.mobilizon-card:hover) {
+    transform: translateY(-2px);
+    border-color: var(--border-strong);
+  }
+
+  :global(.mobilizon-card-image) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-bottom: 1px solid var(--border);
+  }
+
+  :global(.mobilizon-card-body) {
+    padding: 1.25rem;
+  }
+
+  :global(.mobilizon-date) {
+    margin: 0;
+    color: var(--accent);
+    font-size: .76rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+
+  :global(.mobilizon-title) {
+    margin: .7rem 0 0;
+    font-family: var(--theme-font-display);
+    font-size: 1.25rem;
+    line-height: 1.15;
+    letter-spacing: -.025em;
+  }
+
+  :global(.mobilizon-title a:hover) {
+    color: var(--accent);
+  }
+
+  :global(.mobilizon-location),
+  :global(.mobilizon-organizer) {
+    margin: .85rem 0 0;
+    color: var(--foreground-muted);
+    font-size: .9rem;
+  }
+
+  :global(.mobilizon-organizer) {
+    margin-top: .35rem;
+  }
+
+  :global(.mobilizon-action) {
+    display: inline-flex;
+    margin-top: 1rem;
+    color: var(--accent);
+    font-size: .92rem;
+    font-weight: 800;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 900px) {
+    .mobilizon-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 680px) {
+    .mobilizon-heading {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .mobilizon-platform-link {
+      width: 100%;
+    }
+
+    .mobilizon-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

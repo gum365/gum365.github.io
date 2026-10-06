@@ -8,9 +8,9 @@ language: fr-CA
 source_of_truth: true
 translation_key: about
 translation_status: source
-updated: "2026-09-30"
+updated: "2026-10-06"
 nav_label: "À propos"
-nav_order: 3
+nav_order: 4
 hero_eyebrow: "À propos"
 hero_title: "Une communauté, pas une vitrine."
 hero_lead: "GUM365 est une initiative communautaire construite autour du partage d’expérience, de la transmission et des rencontres entre professionnels."

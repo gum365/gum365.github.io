@@ -1,0 +1,105 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'button'> {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive';
+  size?: 'sm' | 'md' | 'lg';
+  loading?: boolean;
+  fullWidth?: boolean;
+  href?: string;
+  target?: string;
+  icon?: boolean;
+  colorScheme?: 'default' | 'invert';
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  loading = false,
+  fullWidth = false,
+  href,
+  target,
+  icon = false,
+  colorScheme = 'default',
+  class: className,
+  disabled,
+  ...attrs
+} = Astro.props;
+
+const external = href ? /^https?:\/\//i.test(href) : false;
+const Element = href ? 'a' : 'button';
+const isDisabled = disabled || loading;
+const classes = [
+  'velocity-button',
+  'velocity-button--' + variant,
+  'velocity-button--' + size,
+  fullWidth && 'velocity-button--full',
+  icon && 'velocity-button--icon',
+  colorScheme === 'invert' && 'velocity-button--invert',
+  className,
+].filter(Boolean).join(' ');
+---
+
+<Element
+  class={classes}
+  href={href && !isDisabled ? href : undefined}
+  target={href && !isDisabled ? (target ?? (external ? '_blank' : undefined)) : undefined}
+  rel={href && external && !isDisabled ? 'noopener noreferrer' : undefined}
+  disabled={!href ? isDisabled : undefined}
+  aria-disabled={href && isDisabled ? 'true' : undefined}
+  tabindex={href && isDisabled ? '-1' : undefined}
+  {...attrs}
+>
+  {loading && <span class="velocity-button__spinner" aria-hidden="true"></span>}
+  <slot />
+</Element>
+
+<style>
+  .velocity-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    font-weight: 750;
+    line-height: 1;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform .15s ease, background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .velocity-button:hover { transform: translateY(-1px); }
+  .velocity-button:active { transform: translateY(0); }
+  .velocity-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .velocity-button[aria-disabled="true"], .velocity-button:disabled { opacity: .5; pointer-events: none; }
+  .velocity-button--sm { min-height: 34px; padding: .55rem .8rem; font-size: .78rem; }
+  .velocity-button--md { min-height: 42px; padding: .7rem 1rem; font-size: .9rem; }
+  .velocity-button--lg { min-height: 50px; padding: .85rem 1.25rem; font-size: 1rem; }
+  .velocity-button--primary { background: var(--primary); color: var(--primary-foreground); }
+  .velocity-button--primary:hover { background: var(--primary-hover); }
+  .velocity-button--secondary { background: var(--background-secondary); color: var(--foreground); border-color: var(--border); }
+  .velocity-button--secondary:hover { background: var(--background-tertiary); border-color: var(--border-strong); }
+  .velocity-button--outline { background: transparent; color: var(--foreground); border-color: var(--border-strong); }
+  .velocity-button--outline:hover { background: var(--background-secondary); }
+  .velocity-button--ghost { background: transparent; color: var(--foreground-secondary); }
+  .velocity-button--ghost:hover { background: var(--background-secondary); color: var(--foreground); }
+  .velocity-button--link { min-height: auto; padding: 0; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .velocity-button--destructive { background: #b42318; color: #fff; }
+  .velocity-button--invert.velocity-button--primary { background: #fff; color: var(--gray-950); }
+  .velocity-button--invert.velocity-button--primary:hover { background: var(--gray-200); }
+  .velocity-button--invert.velocity-button--secondary,
+  .velocity-button--invert.velocity-button--outline { background: transparent; border-color: var(--gray-600); color: #fff; }
+  .velocity-button--invert.velocity-button--secondary:hover,
+  .velocity-button--invert.velocity-button--outline:hover { background: color-mix(in oklab, white 10%, transparent); border-color: var(--gray-400); }
+  .velocity-button--full { width: 100%; }
+  .velocity-button--icon { aspect-ratio: 1; padding-inline: 0; }
+  .velocity-button__spinner {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: velocity-spin .75s linear infinite;
+  }
+  @keyframes velocity-spin { to { transform: rotate(360deg); } }
+</style>

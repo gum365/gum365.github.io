@@ -1,0 +1,434 @@
+---
+import type { PageEntry } from '../lib/site';
+import Button from './ui/form/Button/Button.astro';
+import Card from './ui/data-display/Card/Card.astro';
+import Badge from './ui/data-display/Badge/Badge.astro';
+import Table from './ui/data-display/Table/Table.astro';
+import CTA from './ui/marketing/CTA/CTA.astro';
+
+type PartnerProgram = NonNullable<PageEntry['data']['partner_program']>;
+
+interface Props {
+  program: PartnerProgram;
+  language: 'fr-CA' | 'en-CA';
+}
+
+const { program, language } = Astro.props;
+const isEnglish = language === 'en-CA';
+
+const badgeVariants = {
+  founder: 'brand',
+  gold: 'warning',
+  silver: 'info',
+  bronze: 'default',
+} as const;
+
+const offerMap = Object.fromEntries(program.offers.map((offer) => [offer.key, offer]));
+
+const columns = [
+  { key: 'feature', label: program.comparison_feature_label, align: 'left' as const },
+  { key: 'founder', label: offerMap.founder?.name ?? 'Founder', align: 'center' as const },
+  { key: 'gold', label: offerMap.gold?.name ?? 'Gold', align: 'center' as const },
+  { key: 'silver', label: offerMap.silver?.name ?? 'Silver', align: 'center' as const },
+  { key: 'bronze', label: offerMap.bronze?.name ?? 'Bronze', align: 'center' as const },
+];
+
+const rows = program.comparison_rows.map((row) => ({ ...row }));
+const mailSubject = isEnglish ? 'GUM365 Partnership' : 'Partenariat GUM365';
+const contactHref = 'mailto:' + program.contact_email + '?subject=' + encodeURIComponent(mailSubject);
+---
+
+<section class="partners-intro">
+  <div class="container">
+    <div class="partners-intro__copy">
+      <Badge variant="brand" pill>{program.model_label}</Badge>
+      <h2>{program.model_title}</h2>
+      <p>{program.model_description}</p>
+    </div>
+
+    <div class="partners-alert" role="note">
+      <span class="partners-alert__icon" aria-hidden="true">✦</span>
+      <p>{program.availability_note}</p>
+    </div>
+  </div>
+</section>
+
+<section class="partners-support">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">{isEnglish ? 'Community impact' : 'Impact communautaire'}</p>
+      <h2>{program.support_title}</h2>
+      <p>{program.support_description}</p>
+    </div>
+
+    <div class="support-grid">
+      {program.support_items.map((item, index) => (
+        <Card variant="solid" padding="lg" hover>
+          <span class="support-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </Card>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="partners-offers">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">{isEnglish ? 'Partnership levels' : 'Niveaux de partenariat'}</p>
+      <h2>{program.offers_title}</h2>
+      <p>{program.offers_description}</p>
+    </div>
+
+    <div class="offer-grid">
+      {program.offers.map((offer) => (
+        <Card
+          variant={offer.featured ? 'elevated' : 'default'}
+          padding="lg"
+          hover
+          class={offer.featured ? 'partner-offer partner-offer--featured' : 'partner-offer'}
+        >
+          <div class="offer-topline">
+            <Badge variant={badgeVariants[offer.key]} pill>{offer.badge}</Badge>
+            <span class="offer-availability">{offer.availability}</span>
+          </div>
+
+          <h3>{offer.name}</h3>
+          <div class="offer-price">
+            <strong>{offer.price}</strong>
+            <span>{offer.billing}</span>
+          </div>
+          <p class="offer-description">{offer.description}</p>
+
+          <ul class="offer-features">
+            {offer.features.map((feature) => (
+              <li>
+                <span aria-hidden="true">✓</span>
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+
+          <Button href={contactHref} variant={offer.featured ? 'primary' : 'outline'} fullWidth size="lg">
+            {isEnglish ? 'Discuss this option' : 'Discuter de cette offre'}
+          </Button>
+        </Card>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="partners-comparison">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">{isEnglish ? 'At a glance' : 'En un coup d’œil'}</p>
+      <h2>{program.comparison_title}</h2>
+      <p>{program.comparison_description}</p>
+    </div>
+
+    <Table columns={columns} rows={rows} striped />
+  </div>
+</section>
+
+<section class="partners-principle">
+  <div class="container">
+    <Card variant="outline" padding="lg" class="principle-card">
+      <div class="principle-mark" aria-hidden="true">01</div>
+      <div>
+        <Badge variant="brand" size="sm" pill>{isEnglish ? 'Community first' : 'La communauté d’abord'}</Badge>
+        <h2>{program.independence_title}</h2>
+        <p>{program.independence_description}</p>
+      </div>
+    </Card>
+  </div>
+</section>
+
+<CTA variant="invert" size="xl" maxWidth="lg">
+  <div slot="logo" class="cta-logo-wrap">
+    <img src="/gum365-icon-v2.png" width="72" height="72" alt="" />
+  </div>
+  <h2 slot="heading">{program.cta_title}</h2>
+  <p slot="description">{program.cta_description}</p>
+  <div slot="actions">
+    <Button href={contactHref} size="lg" colorScheme="invert">
+      {program.cta_primary_label}
+    </Button>
+    <Button href="https://gum365.ca" variant="outline" size="lg" colorScheme="invert">
+      {program.cta_secondary_label}
+    </Button>
+  </div>
+</CTA>
+
+<style>
+  .partners-intro,
+  .partners-support,
+  .partners-offers,
+  .partners-comparison,
+  .partners-principle {
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+  }
+
+  .partners-intro {
+    background: var(--background);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .partners-intro__copy,
+  .section-heading {
+    max-width: 820px;
+  }
+
+  .partners-intro__copy h2,
+  .section-heading h2,
+  .principle-card h2 {
+    margin: 1rem 0 0;
+    font-family: var(--theme-font-display);
+    font-size: clamp(2.1rem, 4.5vw, 3.7rem);
+    line-height: 1.02;
+    letter-spacing: -.045em;
+  }
+
+  .partners-intro__copy > p,
+  .section-heading > p:last-child,
+  .principle-card p {
+    margin: 1.25rem 0 0;
+    color: var(--foreground-muted);
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+
+  .partners-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-top: 2.25rem;
+    padding: 1.25rem 1.4rem;
+    border: 1px solid color-mix(in oklab, var(--accent) 35%, var(--border));
+    border-radius: calc(var(--radius) * 1.5);
+    background: color-mix(in oklab, var(--accent) 7%, var(--background));
+  }
+
+  .partners-alert__icon {
+    display: inline-grid;
+    flex: 0 0 2rem;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-weight: 900;
+  }
+
+  .partners-alert p {
+    margin: .15rem 0 0;
+    color: var(--foreground-secondary);
+  }
+
+  .partners-support {
+    background: var(--background-secondary);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .support-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2.25rem;
+  }
+
+  .support-number {
+    display: inline-block;
+    color: var(--accent);
+    font-family: var(--theme-font-display);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+  }
+
+  .support-grid h3 {
+    margin: 1rem 0 0;
+    font-family: var(--theme-font-display);
+    font-size: 1.35rem;
+    line-height: 1.15;
+  }
+
+  .support-grid p {
+    margin: .8rem 0 0;
+    color: var(--foreground-muted);
+  }
+
+  .partners-offers {
+    background: var(--background);
+  }
+
+  .offer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2.25rem;
+  }
+
+  :global(.partner-offer) {
+    position: relative;
+    overflow: hidden;
+  }
+
+  :global(.partner-offer--featured::before) {
+    content: '';
+    position: absolute;
+    width: 13rem;
+    height: 13rem;
+    right: -5rem;
+    top: -6rem;
+    border-radius: 50%;
+    background: color-mix(in oklab, var(--accent) 14%, transparent);
+    filter: blur(25px);
+    pointer-events: none;
+  }
+
+  .offer-topline {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .offer-availability {
+    color: var(--foreground-muted);
+    font-size: .78rem;
+    font-weight: 700;
+    text-align: right;
+  }
+
+  .offer-grid h3 {
+    position: relative;
+    margin: 1.5rem 0 0;
+    font-family: var(--theme-font-display);
+    font-size: 1.7rem;
+    line-height: 1.1;
+  }
+
+  .offer-price {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: .55rem;
+    margin-top: .8rem;
+  }
+
+  .offer-price strong {
+    font-family: var(--theme-font-display);
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 1;
+    letter-spacing: -.04em;
+  }
+
+  .offer-price span,
+  .offer-description {
+    color: var(--foreground-muted);
+  }
+
+  .offer-description {
+    position: relative;
+    min-height: 3.5rem;
+    margin: 1rem 0 0;
+  }
+
+  .offer-features {
+    position: relative;
+    display: grid;
+    gap: .7rem;
+    min-height: 15rem;
+    margin: 1.4rem 0 1.6rem;
+    padding: 1.3rem 0 0;
+    border-top: 1px solid var(--border);
+    list-style: none;
+  }
+
+  .offer-features li {
+    display: grid;
+    grid-template-columns: 1.15rem 1fr;
+    gap: .55rem;
+    color: var(--foreground-secondary);
+    font-size: .92rem;
+  }
+
+  .offer-features li > span:first-child {
+    color: var(--accent);
+    font-weight: 900;
+  }
+
+  .partners-comparison {
+    background: var(--background-secondary);
+    border-block: 1px solid var(--border);
+  }
+
+  .partners-comparison :global(.velocity-table-wrap) {
+    margin-top: 2.25rem;
+    box-shadow: 0 18px 45px color-mix(in oklab, var(--foreground) 5%, transparent);
+  }
+
+  .partners-principle {
+    background: var(--background);
+  }
+
+  :global(.principle-card) {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .principle-mark {
+    display: grid;
+    width: 3.5rem;
+    height: 3.5rem;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-family: var(--theme-font-display);
+    font-weight: 800;
+  }
+
+  .principle-card h2 {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+  }
+
+  .cta-logo-wrap img {
+    display: block;
+    margin-inline: auto;
+    border-radius: 1rem;
+    box-shadow: 0 18px 40px rgba(0,0,0,.25);
+  }
+
+  @media (max-width: 860px) {
+    .support-grid,
+    .offer-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .offer-features,
+    .offer-description {
+      min-height: 0;
+    }
+  }
+
+  @media (max-width: 560px) {
+    :global(.principle-card) {
+      grid-template-columns: 1fr;
+    }
+
+    .offer-topline {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .offer-availability {
+      text-align: left;
+    }
+  }
+</style>

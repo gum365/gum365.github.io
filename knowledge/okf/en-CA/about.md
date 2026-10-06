@@ -9,9 +9,9 @@ source_of_truth: false
 translation_key: about
 translation_of: "../fr-CA/a-propos.md"
 translation_status: validated
-updated: "2026-09-30"
+updated: "2026-10-06"
 nav_label: "About"
-nav_order: 3
+nav_order: 4
 hero_eyebrow: "About"
 hero_title: "A community, not a showcase."
 hero_lead: "GUM365 is a community initiative built around sharing experience, learning and bringing professionals together."

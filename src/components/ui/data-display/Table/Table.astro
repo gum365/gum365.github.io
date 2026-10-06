@@ -1,0 +1,86 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Column {
+  key: string;
+  label: string;
+  align?: 'left' | 'center' | 'right';
+  class?: string;
+}
+
+interface Props extends HTMLAttributes<'div'> {
+  columns: Column[];
+  rows: Record<string, unknown>[];
+  hoverable?: boolean;
+  striped?: boolean;
+  compact?: boolean;
+}
+
+const {
+  columns,
+  rows,
+  hoverable = true,
+  striped = false,
+  compact = false,
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const wrapperClass = ['velocity-table-wrap', compact && 'velocity-table-wrap--compact', className].filter(Boolean).join(' ');
+---
+
+<div class={wrapperClass} {...attrs}>
+  <table class="velocity-table">
+    <thead>
+      <tr>
+        {columns.map((column) => (
+          <th class={'velocity-table__' + (column.align || 'left') + ' ' + (column.class || '')}>
+            {column.label}
+          </th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row, index) => (
+        <tr class:list={{ 'velocity-table__hoverable': hoverable, 'velocity-table__striped': striped && index % 2 === 1 }}>
+          {columns.map((column) => (
+            <td class={'velocity-table__' + (column.align || 'left') + ' ' + (column.class || '')}>
+              {String(row[column.key] ?? '')}
+            </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .velocity-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) * 1.5);
+    background: var(--card);
+  }
+  .velocity-table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: .9rem; }
+  .velocity-table th, .velocity-table td {
+    padding: .95rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .velocity-table-wrap--compact th, .velocity-table-wrap--compact td { padding: .65rem .8rem; }
+  .velocity-table thead th {
+    background: var(--background-secondary);
+    color: var(--foreground-muted);
+    font-size: .76rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+  .velocity-table tbody tr:last-child td { border-bottom: 0; }
+  .velocity-table__hoverable:hover td { background: color-mix(in oklab, var(--accent) 4%, var(--background)); }
+  .velocity-table__striped td { background: var(--background-secondary); }
+  .velocity-table__left { text-align: left; }
+  .velocity-table__center { text-align: center; }
+  .velocity-table__right { text-align: right; }
+</style>

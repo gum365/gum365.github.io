@@ -8,14 +8,14 @@ language: fr-CA
 source_of_truth: true
 translation_key: events
 translation_status: source
-updated: "2026-09-30"
+updated: "2026-10-06"
 nav_label: "Événements"
 nav_order: 2
 hero_eyebrow: "Rencontres · Conférences · Partage"
 hero_title: "La communauté se construit en se rencontrant."
 hero_lead: "Des matinées techniques aux événements IA, GUM365 privilégie des formats accessibles, concrets et propices aux échanges."
-primary_label: "Voir les rencontres Meetup"
-primary_url: "https://www.meetup.com/gum365/"
+primary_label: "Voir tous les événements"
+primary_url: "https://gum365.ca"
 secondary_label: "Proposer une session"
 secondary_url: "https://sessionize.com/gum365-communitydays-trimestriels/"
 ---
@@ -26,7 +26,7 @@ Les **M365 Community Days Montréal** constituent le rendez-vous trimestriel de 
 
 Chaque édition rassemble des conférenciers et des participants autour de sessions techniques, de démonstrations et de retours d’expérience.
 
-Pour la saison 2026-2027, les prochaines dates publiées incluent **le 7 octobre 2026** et **le 27 janvier 2027**. Les dates, lieux et statuts officiels sont maintenus sur Meetup et Sessionize.
+Les prochaines rencontres sont publiées dans **Mobilizon**, la plateforme événementielle de GUM365. La liste affichée plus haut est chargée directement depuis `gum365.ca`, de façon à garder les dates, lieux et statuts à jour sans dupliquer l’information dans le site.
 
 ## AI Community Days
 
@@ -40,5 +40,6 @@ Quand le calendrier le permet, les rencontres se prolongent autour d’un dîner
 
 La scène est ouverte à toute personne ayant une expérience utile à partager : projet, migration, échec instructif, automatisation, architecture, adoption, gouvernance ou expérimentation.
 
-- [Consulter les événements GUM365 sur Meetup](https://www.meetup.com/gum365/)
+- [Consulter l’agenda complet GUM365 sur Mobilizon](https://gum365.ca)
+- [Retrouver la communauté GUM365 sur Meetup](https://www.meetup.com/gum365/)
 - [Soumettre une session sur Sessionize](https://sessionize.com/gum365-communitydays-trimestriels/)

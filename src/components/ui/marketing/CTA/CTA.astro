@@ -1,0 +1,87 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'section'> {
+  variant?: 'default' | 'invert';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  maxWidth?: 'sm' | 'md' | 'lg' | 'xl';
+}
+
+const {
+  variant = 'default',
+  size = 'lg',
+  maxWidth = 'lg',
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const classes = [
+  'velocity-cta',
+  'velocity-cta--' + variant,
+  'velocity-cta--' + size,
+  className,
+].filter(Boolean).join(' ');
+
+const widths = { sm: '38rem', md: '48rem', lg: '58rem', xl: '68rem' };
+---
+
+<section class={classes} {...attrs}>
+  <div class="velocity-cta__inner" style={'--cta-max-width:' + widths[maxWidth]}>
+    {Astro.slots.has('logo') && <div class="velocity-cta__logo"><slot name="logo" /></div>}
+    {Astro.slots.has('heading') && <div class="velocity-cta__heading"><slot name="heading" /></div>}
+    {Astro.slots.has('description') && <div class="velocity-cta__description"><slot name="description" /></div>}
+    {Astro.slots.has('actions') && <div class="velocity-cta__actions"><slot name="actions" /></div>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .velocity-cta { position: relative; overflow: hidden; }
+  .velocity-cta::before {
+    content: '';
+    position: absolute;
+    width: 28rem;
+    height: 28rem;
+    right: -10rem;
+    top: -14rem;
+    border-radius: 50%;
+    background: color-mix(in oklab, var(--accent) 24%, transparent);
+    filter: blur(70px);
+    pointer-events: none;
+  }
+  .velocity-cta--default { background: var(--background-secondary); color: var(--foreground); }
+  .velocity-cta--invert { background: var(--gray-950); color: var(--gray-50); }
+  .velocity-cta--sm { padding-block: 3rem; }
+  .velocity-cta--md { padding-block: 4rem; }
+  .velocity-cta--lg { padding-block: 5rem; }
+  .velocity-cta--xl { padding-block: 6.5rem; }
+  .velocity-cta__inner {
+    position: relative;
+    width: min(var(--cta-max-width), calc(100% - 2rem));
+    margin-inline: auto;
+    text-align: center;
+  }
+  .velocity-cta__logo { margin-bottom: 1.25rem; }
+  .velocity-cta__heading :global(h2) {
+    margin: 0;
+    font-family: var(--theme-font-display);
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1;
+    letter-spacing: -.045em;
+  }
+  .velocity-cta__description {
+    max-width: 760px;
+    margin: 1.25rem auto 0;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--foreground-muted);
+  }
+  .velocity-cta--invert .velocity-cta__description { color: var(--gray-300); }
+  .velocity-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .75rem;
+    margin-top: 2rem;
+  }
+</style>

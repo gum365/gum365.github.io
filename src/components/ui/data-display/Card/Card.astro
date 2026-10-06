@@ -1,0 +1,58 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'div'> {
+  variant?: 'default' | 'solid' | 'outline' | 'ghost' | 'elevated';
+  padding?: 'none' | 'sm' | 'md' | 'lg';
+  hover?: boolean;
+  href?: string;
+}
+
+const {
+  variant = 'default',
+  padding = 'md',
+  hover = false,
+  href,
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const Element = href ? 'a' : 'div';
+const classes = [
+  'velocity-card',
+  'velocity-card--' + variant,
+  'velocity-card--' + padding,
+  hover && 'velocity-card--hover',
+  className,
+].filter(Boolean).join(' ');
+---
+
+<Element class={classes} href={href} {...attrs}>
+  <slot />
+</Element>
+
+<style>
+  .velocity-card {
+    display: block;
+    border-radius: calc(var(--radius) * 1.7);
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .velocity-card--default { background: var(--card); border: 1px solid var(--border); }
+  .velocity-card--solid { background: var(--background-secondary); border: 1px solid transparent; }
+  .velocity-card--outline { background: transparent; border: 2px solid var(--border); }
+  .velocity-card--ghost { background: transparent; border: 1px solid transparent; }
+  .velocity-card--elevated {
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: 0 18px 45px color-mix(in oklab, var(--foreground) 8%, transparent);
+  }
+  .velocity-card--none { padding: 0; }
+  .velocity-card--sm { padding: 1rem; }
+  .velocity-card--md { padding: 1.5rem; }
+  .velocity-card--lg { padding: 2rem; }
+  .velocity-card--hover:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-strong);
+    box-shadow: 0 18px 45px color-mix(in oklab, var(--foreground) 9%, transparent);
+  }
+</style>

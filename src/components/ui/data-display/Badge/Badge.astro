@@ -1,0 +1,59 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'span'> {
+  variant?: 'default' | 'success' | 'warning' | 'error' | 'info' | 'brand';
+  size?: 'sm' | 'md';
+  pulse?: boolean;
+  pill?: boolean;
+}
+
+const {
+  variant = 'default',
+  size = 'md',
+  pulse = false,
+  pill = false,
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const classes = [
+  'velocity-badge',
+  'velocity-badge--' + variant,
+  'velocity-badge--' + size,
+  pill && 'velocity-badge--pill',
+  className,
+].filter(Boolean).join(' ');
+---
+
+<span class={classes} {...attrs}>
+  {pulse && <span class="velocity-badge__dot" aria-hidden="true"></span>}
+  <slot />
+</span>
+
+<style>
+  .velocity-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--background-secondary);
+    color: var(--foreground-secondary);
+    font-weight: 750;
+    line-height: 1;
+  }
+  .velocity-badge--sm { padding: .35rem .55rem; font-size: .68rem; }
+  .velocity-badge--md { padding: .45rem .7rem; font-size: .76rem; }
+  .velocity-badge--pill { border-radius: 999px; box-shadow: 0 4px 12px color-mix(in oklab, var(--foreground) 5%, transparent); }
+  .velocity-badge--brand { background: color-mix(in oklab, var(--accent) 12%, var(--background)); border-color: color-mix(in oklab, var(--accent) 30%, var(--border)); color: var(--accent); }
+  .velocity-badge--success { background: #ecfdf3; border-color: #abefc6; color: #067647; }
+  :global(.dark) .velocity-badge--success { background: #052e1b; border-color: #0b5d39; color: #75e0a7; }
+  .velocity-badge--warning { background: #fffaeb; border-color: #fedf89; color: #b54708; }
+  :global(.dark) .velocity-badge--warning { background: #3a2104; border-color: #7a4b0d; color: #fec84b; }
+  .velocity-badge--info { background: #eff8ff; border-color: #b2ddff; color: #175cd3; }
+  :global(.dark) .velocity-badge--info { background: #0b2447; border-color: #184c85; color: #84caff; }
+  .velocity-badge--error { background: #fef3f2; border-color: #fecdca; color: #b42318; }
+  :global(.dark) .velocity-badge--error { background: #3b0d0a; border-color: #7a271a; color: #fda29b; }
+  .velocity-badge__dot { width: .45rem; height: .45rem; border-radius: 50%; background: currentColor; }
+</style>

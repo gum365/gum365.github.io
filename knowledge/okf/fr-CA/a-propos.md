@@ -8,14 +8,14 @@ language: fr-CA
 source_of_truth: true
 translation_key: about
 translation_status: source
-updated: "2026-10-06"
+updated: "2026-10-09"
 nav_label: "À propos"
 nav_order: 4
 hero_eyebrow: "À propos"
 hero_title: "Une communauté, pas une vitrine."
 hero_lead: "GUM365 est une initiative communautaire construite autour du partage d’expérience, de la transmission et des rencontres entre professionnels."
-primary_label: "Découvrir le groupe Meetup"
-primary_url: "https://www.meetup.com/gum365/"
+primary_label: "Découvrir GUM365 sur Mobilizon"
+primary_url: "https://gum365.ca"
 ---
 
 ## GUM365
@@ -32,6 +32,6 @@ Vous pouvez contribuer en venant à une rencontre, en proposant une session, en 
 
 ## Nous rejoindre
 
-- [Meetup GUM365](https://www.meetup.com/gum365/)
+- [Mobilizon GUM365](https://gum365.ca)
 - [Appel à conférenciers](https://sessionize.com/gum365-communitydays-trimestriels/)
 - [Organisation GitHub GUM365](https://github.com/gum365)

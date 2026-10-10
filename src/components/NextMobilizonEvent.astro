@@ -1,0 +1,415 @@
+---
+interface Props {
+  language?: 'fr-CA' | 'en-CA';
+}
+
+const { language = 'fr-CA' } = Astro.props;
+const isEnglish = language === 'en-CA';
+
+const copy = isEnglish
+  ? {
+      eyebrow: 'Next event',
+      title: 'The next GUM365 gathering',
+      intro: 'Published live from the GUM365 Mobilizon platform.',
+      loading: 'Loading the next event…',
+      empty: 'No upcoming public event is currently published.',
+      error: 'The next event could not be loaded right now.',
+      viewEvent: 'View the event',
+      allEvents: 'View all events',
+      locationFallback: 'Location to be confirmed',
+      organizerPrefix: 'Organized by',
+    }
+  : {
+      eyebrow: 'Prochain événement',
+      title: 'Le prochain rendez-vous GUM365',
+      intro: 'Publié en direct depuis la plateforme Mobilizon de GUM365.',
+      loading: 'Chargement du prochain événement…',
+      empty: 'Aucun événement public à venir n’est actuellement publié.',
+      error: 'Le prochain événement ne peut pas être chargé pour le moment.',
+      viewEvent: 'Voir l’événement',
+      allEvents: 'Voir tous les événements',
+      locationFallback: 'Lieu à confirmer',
+      organizerPrefix: 'Organisé par',
+    };
+---
+
+<section class="next-event-section" aria-labelledby="next-event-title">
+  <div class="container">
+    <div class="next-event-heading">
+      <div>
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <h2 id="next-event-title">{copy.title}</h2>
+        <p>{copy.intro}</p>
+      </div>
+      <a class="button button-secondary" href={isEnglish ? '/en-ca/events/' : '/evenements/'}>
+        {copy.allEvents}
+      </a>
+    </div>
+
+    <div
+      class="next-event-feed"
+      data-next-mobilizon-event
+      data-endpoint="https://gum365.ca/api"
+      data-instance="https://gum365.ca"
+      data-locale={isEnglish ? 'en-CA' : 'fr-CA'}
+      data-loading={copy.loading}
+      data-empty={copy.empty}
+      data-error={copy.error}
+      data-view-event={copy.viewEvent}
+      data-location-fallback={copy.locationFallback}
+      data-organizer-prefix={copy.organizerPrefix}
+    >
+      <div data-state="loading" class="next-event-state" role="status" aria-live="polite">
+        {copy.loading}
+      </div>
+
+      <div data-state="event" hidden></div>
+
+      <div data-state="empty" class="next-event-state" hidden>
+        <p>{copy.empty}</p>
+        <a href="https://gum365.ca" target="_blank" rel="noopener noreferrer">{copy.allEvents}</a>
+      </div>
+
+      <div data-state="error" class="next-event-state" role="status" aria-live="polite" hidden>
+        <p>{copy.error}</p>
+        <a href="https://gum365.ca" target="_blank" rel="noopener noreferrer">{copy.allEvents}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  const NEXT_EVENT_QUERY = `
+    query SearchEvents($beginsOn: DateTime, $eventPage: Int, $limit: Int) {
+      searchEvents(
+        beginsOn: $beginsOn
+        page: $eventPage
+        limit: $limit
+      ) {
+        total
+        elements {
+          id
+          title
+          uuid
+          beginsOn
+          status
+          picture {
+            url
+          }
+          physicalAddress {
+            description
+            locality
+            region
+          }
+          organizerActor {
+            name
+            preferredUsername
+          }
+        }
+      }
+    }
+  `;
+
+  function setNextEventState(root, state) {
+    root.querySelectorAll('[data-state]').forEach((element) => {
+      element.hidden = element.getAttribute('data-state') !== state;
+    });
+  }
+
+  function nextEventText(tag, className, text) {
+    const element = document.createElement(tag);
+    element.className = className;
+    element.textContent = text;
+    return element;
+  }
+
+  function nextEventLocation(event, fallback) {
+    const address = event?.physicalAddress;
+    const parts = [address?.description, address?.locality, address?.region].filter(Boolean);
+    return parts.length > 0 ? [...new Set(parts)].join(' · ') : fallback;
+  }
+
+  function renderNextEvent(event, root) {
+    const instance = root.dataset.instance || 'https://gum365.ca';
+    const locale = root.dataset.locale || 'fr-CA';
+    const viewEvent = root.dataset.viewEvent || 'Voir l’événement';
+    const locationFallback = root.dataset.locationFallback || 'Lieu à confirmer';
+    const organizerPrefix = root.dataset.organizerPrefix || 'Organisé par';
+
+    const article = document.createElement('article');
+    article.className = 'next-event-card';
+
+    if (event.picture?.url) {
+      const media = document.createElement('div');
+      media.className = 'next-event-media';
+      const image = document.createElement('img');
+      image.src = event.picture.url;
+      image.alt = '';
+      image.loading = 'lazy';
+      media.appendChild(image);
+      article.appendChild(media);
+    }
+
+    const body = document.createElement('div');
+    body.className = 'next-event-body';
+
+    const formatter = new Intl.DateTimeFormat(locale, {
+      dateStyle: 'full',
+      timeStyle: 'short',
+      timeZone: 'America/Toronto',
+    });
+
+    body.appendChild(nextEventText('p', 'next-event-date', formatter.format(new Date(event.beginsOn))));
+
+    const title = document.createElement('h3');
+    const link = document.createElement('a');
+    link.href = `${instance}/events/${event.uuid}`;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = event.title;
+    title.appendChild(link);
+    body.appendChild(title);
+
+    body.appendChild(
+      nextEventText('p', 'next-event-location', nextEventLocation(event, locationFallback))
+    );
+
+    const organizer = event.organizerActor?.name || event.organizerActor?.preferredUsername;
+    if (organizer) {
+      body.appendChild(
+        nextEventText('p', 'next-event-organizer', `${organizerPrefix} ${organizer}`)
+      );
+    }
+
+    const action = document.createElement('a');
+    action.className = 'button button-primary next-event-action';
+    action.href = `${instance}/events/${event.uuid}`;
+    action.target = '_blank';
+    action.rel = 'noopener noreferrer';
+    action.textContent = viewEvent;
+    body.appendChild(action);
+
+    article.appendChild(body);
+    return article;
+  }
+
+  async function loadNextMobilizonEvent(root) {
+    if (root.dataset.loaded === 'true') return;
+    root.dataset.loaded = 'true';
+
+    const endpoint = root.dataset.endpoint;
+    if (!endpoint) {
+      setNextEventState(root, 'error');
+      return;
+    }
+
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 8000);
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          operationName: 'SearchEvents',
+          query: NEXT_EVENT_QUERY,
+          variables: {
+            beginsOn: new Date().toISOString(),
+            eventPage: 1,
+            limit: 20,
+          },
+        }),
+        signal: controller.signal,
+      });
+
+      if (!response.ok) throw new Error(`Mobilizon API returned ${response.status}`);
+
+      const payload = await response.json();
+      if (payload.errors?.length) {
+        throw new Error(payload.errors.map((error) => error.message).join('; '));
+      }
+
+      const events = (payload.data?.searchEvents?.elements || [])
+        .filter((event) =>
+          event?.uuid &&
+          event?.title &&
+          event?.beginsOn &&
+          event?.status !== 'CANCELLED'
+        )
+        .sort((a, b) => new Date(a.beginsOn).getTime() - new Date(b.beginsOn).getTime());
+
+      const event = events[0];
+      if (!event) {
+        setNextEventState(root, 'empty');
+        return;
+      }
+
+      const target = root.querySelector('[data-state="event"]');
+      if (!target) throw new Error('Next event container is missing.');
+
+      target.replaceChildren(renderNextEvent(event, root));
+      setNextEventState(root, 'event');
+    } catch (error) {
+      console.warn('Unable to load next Mobilizon event from gum365.ca', error);
+      setNextEventState(root, 'error');
+    } finally {
+      window.clearTimeout(timeout);
+    }
+  }
+
+  function initNextMobilizonEvent() {
+    document.querySelectorAll('[data-next-mobilizon-event]').forEach((root) => {
+      if (root instanceof HTMLElement) loadNextMobilizonEvent(root);
+    });
+  }
+
+  initNextMobilizonEvent();
+  document.addEventListener('astro:page-load', initNextMobilizonEvent);
+</script>
+
+<style>
+  .next-event-section {
+    padding-block: clamp(3.5rem, 7vw, 5.5rem);
+    border-bottom: 1px solid var(--border);
+    background: var(--background);
+  }
+
+  .next-event-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .next-event-heading > div {
+    max-width: 720px;
+  }
+
+  .next-event-heading h2 {
+    margin: 0;
+    font-family: var(--theme-font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -.035em;
+  }
+
+  .next-event-heading > div > p:last-child {
+    margin: 1rem 0 0;
+    color: var(--foreground-muted);
+    font-size: 1.05rem;
+  }
+
+  .next-event-feed {
+    margin-top: 2rem;
+  }
+
+  .next-event-state {
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) * 1.5);
+    background: var(--background-secondary);
+    padding: 1.5rem;
+    color: var(--foreground-muted);
+  }
+
+  .next-event-state p { margin: 0; }
+
+  .next-event-state a {
+    display: inline-flex;
+    margin-top: 1rem;
+    color: var(--accent);
+    font-weight: 750;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  :global(.next-event-card) {
+    display: grid;
+    grid-template-columns: minmax(280px, .9fr) minmax(0, 1.4fr);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) * 2);
+    background: var(--card);
+    box-shadow: 0 20px 55px color-mix(in oklab, var(--foreground) 7%, transparent);
+  }
+
+  :global(.next-event-card:not(:has(.next-event-media))) {
+    grid-template-columns: 1fr;
+  }
+
+  :global(.next-event-media) {
+    min-height: 290px;
+    background: var(--background-secondary);
+  }
+
+  :global(.next-event-media img) {
+    width: 100%;
+    height: 100%;
+    min-height: 290px;
+    object-fit: cover;
+    display: block;
+  }
+
+  :global(.next-event-body) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  :global(.next-event-date) {
+    margin: 0;
+    color: var(--accent);
+    font-size: .78rem;
+    font-weight: 850;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+
+  :global(.next-event-body h3) {
+    margin: .8rem 0 0;
+    font-family: var(--theme-font-display);
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    line-height: 1;
+    letter-spacing: -.045em;
+  }
+
+  :global(.next-event-body h3 a:hover) {
+    color: var(--accent);
+  }
+
+  :global(.next-event-location),
+  :global(.next-event-organizer) {
+    margin: 1rem 0 0;
+    color: var(--foreground-muted);
+  }
+
+  :global(.next-event-organizer) {
+    margin-top: .35rem;
+    font-size: .9rem;
+  }
+
+  :global(.next-event-action) {
+    align-self: flex-start;
+    margin-top: 1.5rem;
+  }
+
+  @media (max-width: 760px) {
+    .next-event-heading {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    :global(.next-event-card) {
+      grid-template-columns: 1fr;
+    }
+
+    :global(.next-event-media),
+    :global(.next-event-media img) {
+      min-height: 220px;
+      max-height: 320px;
+    }
+  }
+</style>

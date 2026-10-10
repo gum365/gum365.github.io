@@ -8,14 +8,14 @@ language: fr-CA
 source_of_truth: true
 translation_key: home
 translation_status: source
-updated: "2026-09-30"
+updated: "2026-10-09"
 nav_label: "Accueil"
 nav_order: 0
 hero_eyebrow: "Communauté · Montréal · Microsoft 365"
 hero_title: "Apprendre. Partager. Se rencontrer."
 hero_lead: "GUM365 réunit les professionnels, praticiens et passionnés de Microsoft 365 à Montréal pour parler de travail réel, de technologie et de transformation — sans perdre la dimension humaine de la communauté."
-primary_label: "Rejoindre le groupe Meetup"
-primary_url: "https://www.meetup.com/gum365/"
+primary_label: "Rejoindre la communauté"
+primary_url: "https://gum365.ca"
 secondary_label: "Voir les événements"
 secondary_url: "/evenements/"
 ---
@@ -46,6 +46,6 @@ Consultez l’[appel à conférenciers sur Sessionize](https://sessionize.com/gu
 
 ## Rester connecté
 
-- [Meetup GUM365](https://www.meetup.com/gum365/) pour suivre les rencontres.
+- [Mobilizon GUM365](https://gum365.ca) pour suivre les rencontres et rejoindre la communauté.
 - [Sessionize](https://sessionize.com/gum365-communitydays-trimestriels/) pour les appels à conférenciers.
 - [GitHub GUM365](https://github.com/gum365) pour les projets publics de la communauté.

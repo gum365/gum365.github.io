@@ -9,14 +9,14 @@ source_of_truth: false
 translation_key: about
 translation_of: "../fr-CA/a-propos.md"
 translation_status: validated
-updated: "2026-10-06"
+updated: "2026-10-09"
 nav_label: "About"
 nav_order: 4
 hero_eyebrow: "About"
 hero_title: "A community, not a showcase."
 hero_lead: "GUM365 is a community initiative built around sharing experience, learning and bringing professionals together."
-primary_label: "Discover the Meetup group"
-primary_url: "https://www.meetup.com/gum365/"
+primary_label: "Discover GUM365 on Mobilizon"
+primary_url: "https://gum365.ca"
 ---
 
 ## GUM365
@@ -33,6 +33,6 @@ You can contribute by attending a gathering, proposing a session, helping from t
 
 ## Join us
 
-- [GUM365 on Meetup](https://www.meetup.com/gum365/)
+- [GUM365 on Mobilizon](https://gum365.ca)
 - [Call for speakers](https://sessionize.com/gum365-communitydays-trimestriels/)
 - [GUM365 GitHub organization](https://github.com/gum365)

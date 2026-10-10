@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import MobilizonEvents from './MobilizonEvents.astro';
+import NextMobilizonEvent from './NextMobilizonEvent.astro';
 import PartnersPage from './PartnersPage.astro';
 import { getAlternate, getNav, hrefFor, type PageEntry } from '../lib/site';
 
@@ -48,6 +49,10 @@ const isPartnersPage = page.data.translation_key === 'partners' && Boolean(page.
       </div>
     </div>
   </section>
+
+  {page.data.translation_key === 'home' && (
+    <NextMobilizonEvent language={page.data.language} />
+  )}
 
   {page.data.translation_key === 'events' && (
     <MobilizonEvents language={page.data.language} />

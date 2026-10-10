@@ -8,14 +8,14 @@ language: fr-CA
 source_of_truth: true
 translation_key: community
 translation_status: source
-updated: "2026-09-30"
+updated: "2026-10-09"
 nav_label: "Communauté"
 nav_order: 1
 hero_eyebrow: "GUM365"
 hero_title: "Une communauté de praticiens."
 hero_lead: "GUM365 existe pour créer des conversations utiles entre les personnes qui conçoivent, administrent, déploient et utilisent les environnements Microsoft 365."
-primary_label: "Rejoindre sur Meetup"
-primary_url: "https://www.meetup.com/gum365/"
+primary_label: "Rejoindre sur Mobilizon"
+primary_url: "https://gum365.ca"
 ---
 
 ## Notre mission
@@ -42,4 +42,4 @@ Nous voulons aussi faciliter l’arrivée de **nouveaux conférenciers**. Il n�
 
 Le présentiel garde une place centrale parce qu’une communauté ne se résume pas à une diffusion de contenu. Les rencontres servent autant à apprendre qu’à créer des liens, poser des questions, confronter des idées et poursuivre les discussions après les sessions.
 
-Entre les événements, Meetup et les autres canaux communautaires permettent de garder le lien.
+Entre les événements, Mobilizon et les autres canaux communautaires permettent de garder le lien.

@@ -9,14 +9,14 @@ source_of_truth: false
 translation_key: community
 translation_of: "../fr-CA/communaute.md"
 translation_status: validated
-updated: "2026-09-30"
+updated: "2026-10-09"
 nav_label: "Community"
 nav_order: 1
 hero_eyebrow: "GUM365"
 hero_title: "A community of practitioners."
 hero_lead: "GUM365 creates useful conversations between the people who design, administer, deploy and use Microsoft 365 environments."
-primary_label: "Join on Meetup"
-primary_url: "https://www.meetup.com/gum365/"
+primary_label: "Join on Mobilizon"
+primary_url: "https://gum365.ca"
 ---
 
 ## Our mission
@@ -43,4 +43,4 @@ We also want to make it easier for **new speakers** to get started. You do not n
 
 In-person events remain central because a community is more than content delivery. Meetings are opportunities to learn, create connections, ask questions, compare ideas and keep talking after the sessions.
 
-Between events, Meetup and other community channels help maintain continuity.
+Between events, Mobilizon and other community channels help maintain continuity.

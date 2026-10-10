@@ -1,0 +1,400 @@
+---
+interface Props { language?: 'fr-CA' | 'en-CA'; }
+const { language = 'fr-CA' } = Astro.props;
+const en = language === 'en-CA';
+const t = en ? {
+  demo:'DESIGN PROTOTYPE · FICTIONAL CONTENT', crumb:'Events / Community Days',
+  edition:'GUM365 · COMMUNITY EXPERIENCE', heading:'A day to learn, share and connect.',
+  intro:'An event space built for the community: agenda, speakers, session slides, photos and registration. Everything in one place.',
+  date:'Date to be announced', city:'Montréal · Venue to be confirmed', sessions:'Sample sessions', people:'Sample speakers',
+  agendaButton:'Explore the agenda', ticketButton:'Registration area',
+  browse:'On this page', overview:'Overview', agenda:'Agenda', speakers:'Speakers', resources:'Resources', photos:'Photo gallery', venue:'Practical info', tickets:'Registration',
+  overviewEyebrow:'THE EXPERIENCE', overviewTitle:'An event page that lives before, during and after.',
+  overviewLead:'The same page guides people before the event, helps them navigate on the day, and becomes a lasting resource library afterward.',
+  before:'Before', during:'During', after:'After',
+  beforeText:'Discover the program, prepare your visit and register.',
+  duringText:'Find sessions, speakers and the practical information you need.',
+  afterText:'Download materials, relive highlights and share the event.',
+  agendaEyebrow:'PROGRAM', agendaTitle:'Build your own day.', agendaLead:'Sample sessions to demonstrate the layout. Filter the program and open a session for details.',
+  all:'All day', morning:'Morning', afternoon:'Afternoon', details:'Session details', speakerPrefix:'Speaker',
+  speakersEyebrow:'ON STAGE', speakersTitle:'Meet the people behind the ideas.', speakersLead:'Illustrative profiles: real speaker biographies will be loaded from the event source.',
+  resourcesEyebrow:'LEARNING LIBRARY', resourcesTitle:'The conversation continues after the event.',
+  resourcesLead:'Session slides, links, demos and recordings can live here, organized by talk.',
+  sample:'Sample document', placeholder:'Files will be available here when published by the organizers.',
+  material:'Slide deck', links:'Useful links', coming:'Coming after the event',
+  galleryEyebrow:'COMMUNITY MOMENTS', galleryTitle:'The moments worth sharing.', galleryLead:'An event album with organizer-approved pictures. The images below are illustrative stock photography.',
+  galleryAlt:'Illustrative photo of an event', venueEyebrow:'GETTING HERE', venueTitle:'Everything you need to arrive ready.',
+  venueText:'The exact venue and accessibility details will be published with the event announcement.',
+  where:'Location', when:'Date & time', access:'Accessibility', accessInfo:'Details to be confirmed',
+  ticketEyebrow:'JOIN THE COMMUNITY', ticketsTitle:'See you at the next GUM365 event?',
+  ticketsLead:'The future booking module can show free or paid tickets, availability and check-in QR codes here. This prototype does not take registrations.',
+  currentEvents:'Browse actual events on Mobilizon', submit:'Propose a session on Sessionize',
+  note:'Preview only. No real tickets, speakers, files or sessions are published on this page.',
+  photoClose:'Close photo', footer:'A reusable one-page component for GUM365 community events.'
+} : {
+  demo:'PROTOTYPE DE DESIGN · CONTENU FICTIF', crumb:'Événements / Community Days',
+  edition:'GUM365 · EXPÉRIENCE COMMUNAUTAIRE', heading:'Une journée pour apprendre, partager et se rencontrer.',
+  intro:'Un espace événementiel pensé pour la communauté : agenda, conférenciers, présentations, photos et inscriptions. Tout au même endroit.',
+  date:'Date à annoncer', city:'Montréal · Lieu à confirmer', sessions:'Sessions exemples', people:'Conférenciers exemples',
+  agendaButton:'Explorer le programme', ticketButton:'Espace inscription',
+  browse:'Sur cette page', overview:'Découvrir', agenda:'Programme', speakers:'Conférenciers', resources:'Ressources', photos:'Photos', venue:'Infos pratiques', tickets:'Inscriptions',
+  overviewEyebrow:'L’EXPÉRIENCE', overviewTitle:'Une page événement qui vit avant, pendant et après.',
+  overviewLead:'Le même espace accompagne les participants avant l’événement, les guide le jour J et conserve ensuite les ressources de la communauté.',
+  before:'Avant', during:'Pendant', after:'Après',
+  beforeText:'Découvrir les sujets, préparer sa venue et réserver sa place.',
+  duringText:'Retrouver les sessions, les intervenants et toutes les informations utiles.',
+  afterText:'Télécharger les supports, revivre les moments forts et prolonger les échanges.',
+  agendaEyebrow:'PROGRAMME', agendaTitle:'Composez votre journée.', agendaLead:'Des sessions fictives pour illustrer la présentation. Filtrez le programme et ouvrez les détails.',
+  all:'Toute la journée', morning:'Matin', afternoon:'Après-midi', details:'Détails de la session', speakerPrefix:'Intervenant',
+  speakersEyebrow:'SUR SCÈNE', speakersTitle:'Celles et ceux qui partagent leurs idées.', speakersLead:'Profils illustratifs : les véritables biographies proviendront de la source événementielle.',
+  resourcesEyebrow:'BIBLIOTHÈQUE', resourcesTitle:'Le partage continue après la conférence.',
+  resourcesLead:'Les présentations, liens, démonstrations et enregistrements pourront être organisés par session.',
+  sample:'Document exemple', placeholder:'Les fichiers apparaîtront ici après publication par les organisateurs.',
+  material:'Présentation', links:'Liens utiles', coming:'Disponible après l’événement',
+  galleryEyebrow:'VIE COMMUNAUTAIRE', galleryTitle:'Des moments qui méritent d’être partagés.', galleryLead:'Un album lié à l’événement, avec des photos validées par les organisateurs. Les images ci-dessous sont des illustrations.',
+  galleryAlt:'Photographie illustrative d’un événement', venueEyebrow:'PRÉPARER SA VENUE', venueTitle:'Toutes les informations au même endroit.',
+  venueText:'Le lieu exact et les informations d’accessibilité seront indiqués lors de l’annonce officielle.',
+  where:'Lieu', when:'Date et horaires', access:'Accessibilité', accessInfo:'Précisions à venir',
+  ticketEyebrow:'REJOINDRE LA COMMUNAUTÉ', ticketsTitle:'On se retrouve au prochain GUM365 ?',
+  ticketsLead:'Le futur module affichera ici les billets gratuits ou payants, les disponibilités et le contrôle par QR code. Ce prototype ne collecte aucune inscription.',
+  currentEvents:'Voir les vrais événements sur Mobilizon', submit:'Proposer une session sur Sessionize',
+  note:'Aperçu seulement. Aucun billet, conférencier, fichier ou session réel n’est publié sur cette page.',
+  photoClose:'Fermer la photo', footer:'Un modèle OnePage réutilisable pour les événements GUM365.'
+};
+const nav = [
+  {id:'apercu', label:t.overview, ico:'◈'},
+  {id:'programme', label:t.agenda, ico:'▤'},
+  {id:'conferenciers', label:t.speakers, ico:'♙'},
+  {id:'ressources', label:t.resources, ico:'▣'},
+  {id:'photos', label:t.photos, ico:'▧'},
+  {id:'infos', label:t.venue, ico:'⌖'},
+  {id:'inscriptions', label:t.tickets, ico:'↗'}
+];
+const sessions = en ? [
+  {time:'09:00',end:'09:30',period:'morning',track:'Opening',title:'What comes next for Microsoft 365?',name:'Community host',desc:'A welcome and a preview of the questions we will explore together.'},
+  {time:'09:45',end:'10:35',period:'morning',track:'Copilot',title:'From prompts to agents: what works in practice',name:'Speaker A',desc:'Lessons learned, patterns and real-world demonstrations.'},
+  {time:'10:50',end:'11:40',period:'morning',track:'Power Platform',title:'Automations that scale safely',name:'Speaker B',desc:'Governance, reuse and operational reliability for makers.'},
+  {time:'12:50',end:'13:40',period:'afternoon',track:'Architecture',title:'A better knowledge foundation for AI',name:'Speaker C',desc:'Knowledge organization as the foundation of trustworthy AI experiences.'},
+  {time:'13:55',end:'14:45',period:'afternoon',track:'SharePoint',title:'Rethinking collaborative workspaces',name:'Speaker D',desc:'Practical examples and architectural tradeoffs.'},
+  {time:'15:00',end:'15:45',period:'afternoon',track:'Community',title:'Open discussion and real-world lessons',name:'Roundtable',desc:'Questions, tips and experiences shared across the community.'}
+] : [
+  {time:'09:00',end:'09:30',period:'morning',track:'Ouverture',title:'Quel avenir pour Microsoft 365 ?',name:'Animation GUM365',desc:'Accueil de la communauté et présentation des grands enjeux de la journée.'},
+  {time:'09:45',end:'10:35',period:'morning',track:'Copilot',title:'Du prompt aux agents : ce qui fonctionne vraiment',name:'Intervenant A',desc:'Retours d’expérience, bonnes pratiques et démonstrations concrètes.'},
+  {time:'10:50',end:'11:40',period:'morning',track:'Power Platform',title:'Des automatisations fiables à grande échelle',name:'Intervenant B',desc:'Gouvernance, réutilisation et bonnes pratiques opérationnelles.'},
+  {time:'12:50',end:'13:40',period:'afternoon',track:'Architecture',title:'Construire la connaissance avant de déployer l’IA',name:'Intervenant C',desc:'Organiser les sources pour alimenter une IA cohérente et responsable.'},
+  {time:'13:55',end:'14:45',period:'afternoon',track:'SharePoint',title:'Repenser les espaces de collaboration',name:'Intervenant D',desc:'Exemples terrain et choix d’architecture pour les équipes.'},
+  {time:'15:00',end:'15:45',period:'afternoon',track:'Communauté',title:'Table ronde : les leçons du terrain',name:'Discussion collective',desc:'Questions ouvertes, astuces et expériences croisées.'}
+];
+const speakerNames = en ? ['Speaker A','Speaker B','Speaker C','Speaker D'] : ['Intervenant A','Intervenant B','Intervenant C','Intervenant D'];
+const speakerSubjects = ['Copilot & AI','Power Platform','Knowledge & AI','SharePoint'];
+const gallery = [
+ 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1000&q=80',
+ 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1000&q=80',
+ 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1000&q=80',
+ 'https://images.unsplash.com/photo-1559223607-a43c990c692c?w=1000&q=80'
+];
+---
+<div class="event-prototype">
+  <div class="proto-notice"><span class="notice-dot"></span>{t.demo}</div>
+  <section class="event-hero">
+    <div class="hero-backdrop" aria-hidden="true"></div>
+    <div class="container event-hero-inner">
+      <div class="event-crumb">{t.crumb}</div>
+      <div class="hero-layout">
+        <div>
+          <p class="eyebrow">{t.edition}</p>
+          <h1>{t.heading}</h1>
+          <p class="lead">{t.intro}</p>
+          <div class="hero-buttons">
+            <a class="button button-primary" href="#programme">{t.agendaButton} <span aria-hidden="true">↓</span></a>
+            <a class="button button-secondary" href="#inscriptions">{t.ticketButton} <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="hero-meta">
+            <span>◷ {t.date}</span>
+            <span>⌖ {t.city}</span>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <span class="orbit one"></span><span class="orbit two"></span><span class="art-glow"></span>
+          <div class="art-square a">M</div><div class="art-square b">365</div><div class="art-square c">AI</div>
+          <div class="art-caption">CONNECT / LEARN / SHARE</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container event-columns">
+    <aside class="event-aside">
+      <div class="aside-sticky">
+        <p class="aside-title">{t.browse}</p>
+        <nav class="event-side-nav" aria-label={t.browse}>
+          {nav.map((item, i) => (
+            <a class:list={['event-side-link', {'selected': i===0}]} href={'#'+item.id} data-event-nav={item.id}>
+              <span class="side-icon" aria-hidden="true">{item.ico}</span><span>{item.label}</span>
+            </a>
+          ))}
+        </nav>
+        <div class="aside-card"><strong>GUM365</strong><small>{t.note}</small></div>
+      </div>
+    </aside>
+
+    <div class="event-main">
+      <section id="apercu" class="event-section overview">
+        <p class="eyebrow">{t.overviewEyebrow}</p>
+        <h2>{t.overviewTitle}</h2>
+        <p class="section-lead">{t.overviewLead}</p>
+        <div class="phase-grid">
+          <div class="phase-card"><div class="phase-number">01</div><h3>{t.before}</h3><p>{t.beforeText}</p></div>
+          <div class="phase-card"><div class="phase-number">02</div><h3>{t.during}</h3><p>{t.duringText}</p></div>
+          <div class="phase-card"><div class="phase-number">03</div><h3>{t.after}</h3><p>{t.afterText}</p></div>
+        </div>
+        <div class="mini-stats"><span><strong>06</strong> {t.sessions}</span><span><strong>04</strong> {t.people}</span><span><strong>01</strong> GUM365</span></div>
+      </section>
+
+      <section id="programme" class="event-section">
+        <p class="eyebrow">{t.agendaEyebrow}</p>
+        <h2>{t.agendaTitle}</h2>
+        <p class="section-lead">{t.agendaLead}</p>
+        <div class="agenda-tabs" role="group" aria-label={t.agenda}>
+          <button class="tab is-active" type="button" data-event-filter="all" aria-pressed="true">{t.all}</button>
+          <button class="tab" type="button" data-event-filter="morning" aria-pressed="false">{t.morning}</button>
+          <button class="tab" type="button" data-event-filter="afternoon" aria-pressed="false">{t.afternoon}</button>
+        </div>
+        <div class="agenda-list">
+          {sessions.map((s)=>(
+            <article class="agenda-session" data-event-period={s.period}>
+              <div class="session-time"><strong>{s.time}</strong><small>{s.end}</small></div>
+              <div class="session-body">
+                <span class="topic-tag">{s.track}</span>
+                <h3>{s.title}</h3>
+                <p class="session-speaker">● {s.name}</p>
+                <details><summary>{t.details} <span aria-hidden="true">↗</span></summary><p>{s.desc}</p></details>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="conferenciers" class="event-section">
+        <p class="eyebrow">{t.speakersEyebrow}</p>
+        <h2>{t.speakersTitle}</h2>
+        <p class="section-lead">{t.speakersLead}</p>
+        <div class="speakers-grid">
+          {speakerNames.map((name,i)=>(
+            <article class="speaker-card">
+              <div class={'speaker-image speaker-tone-'+i}><div class="avatar-glyph">{['A','B','C','D'][i]}</div><span class="speaker-pattern" aria-hidden="true">✳</span></div>
+              <div class="speaker-info"><h3>{name}</h3><p>{speakerSubjects[i]}</p></div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="ressources" class="event-section">
+        <p class="eyebrow">{t.resourcesEyebrow}</p>
+        <h2>{t.resourcesTitle}</h2>
+        <p class="section-lead">{t.resourcesLead}</p>
+        <div class="resource-grid">
+          <article class="resource-card"><div class="resource-icon">↓</div><span class="small-label">{t.material}</span><h3>Copilot & AI</h3><p>{t.placeholder}</p><span class="resource-status">{t.coming}</span></article>
+          <article class="resource-card"><div class="resource-icon">↗</div><span class="small-label">{t.links}</span><h3>Power Platform</h3><p>{t.placeholder}</p><span class="resource-status">{t.coming}</span></article>
+        </div>
+      </section>
+
+      <section id="photos" class="event-section">
+        <p class="eyebrow">{t.galleryEyebrow}</p>
+        <h2>{t.galleryTitle}</h2>
+        <p class="section-lead">{t.galleryLead}</p>
+        <div class="gallery-grid">
+          {gallery.map((url,i)=>(
+            <button class={'gallery-photo gallery-photo-'+i} data-gallery-image={url} aria-label={t.galleryAlt+' '+(i+1)} type="button">
+              <img src={url} alt={t.galleryAlt} loading="lazy"/><span class="gallery-zoom" aria-hidden="true">↗</span>
+            </button>
+          ))}
+        </div>
+        <p class="gallery-credit">Unsplash · {t.demo}</p>
+      </section>
+
+      <section id="infos" class="event-section">
+        <p class="eyebrow">{t.venueEyebrow}</p>
+        <h2>{t.venueTitle}</h2>
+        <p class="section-lead">{t.venueText}</p>
+        <div class="practical-grid">
+          <div class="practical-card"><span class="practical-icon">⌖</span><small>{t.where}</small><strong>Montréal</strong><p>{t.city}</p></div>
+          <div class="practical-card"><span class="practical-icon">◷</span><small>{t.when}</small><strong>{t.date}</strong><p>09:00–16:00 · {t.demo}</p></div>
+          <div class="practical-card"><span class="practical-icon">♡</span><small>{t.access}</small><strong>{t.accessInfo}</strong><p>{t.venueText}</p></div>
+        </div>
+      </section>
+
+      <section id="inscriptions" class="event-section last-section">
+        <div class="join-panel">
+          <p class="eyebrow">{t.ticketEyebrow}</p>
+          <h2>{t.ticketsTitle}</h2>
+          <p>{t.ticketsLead}</p>
+          <div class="join-buttons">
+            <a class="button button-primary" href="https://gum365.ca" target="_blank" rel="noopener noreferrer">{t.currentEvents} ↗</a>
+            <a class="button button-secondary" href="https://sessionize.com/gum365-communitydays-trimestriels/" target="_blank" rel="noopener noreferrer">{t.submit} ↗</a>
+          </div>
+          <small>{t.note}</small>
+        </div>
+      </section>
+    </div>
+  </div>
+  <dialog class="event-lightbox" data-event-lightbox aria-label={t.photos}>
+    <form method="dialog"><button type="submit" aria-label={t.photoClose}>×</button></form>
+    <img alt={t.galleryAlt} src="" data-event-large-image/>
+  </dialog>
+</div>
+<script>
+  document.querySelectorAll('.event-prototype').forEach((root) => {
+    root.querySelectorAll('[data-event-filter]').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        if (!(tab instanceof HTMLButtonElement)) return;
+        const active = tab.dataset.eventFilter;
+        root.querySelectorAll('[data-event-filter]').forEach((btn) => {
+          const selected = btn === tab;
+          btn.classList.toggle('is-active', selected);
+          btn.setAttribute('aria-pressed', String(selected));
+        });
+        root.querySelectorAll('[data-event-period]').forEach((row) => {
+          if (row instanceof HTMLElement) row.hidden = active !== 'all' && row.dataset.eventPeriod !== active;
+        });
+      });
+    });
+    const links = Array.from(root.querySelectorAll('[data-event-nav]'));
+    const sections = Array.from(root.querySelectorAll('.event-section'));
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.filter((entry) => entry.isIntersecting).forEach((entry) => {
+          links.forEach((a) => {
+            a.classList.toggle('selected', a.getAttribute('data-event-nav') === entry.target.id);
+          });
+        });
+      }, {rootMargin:'-20% 0px -65% 0px',threshold:0});
+      sections.forEach((s) => observer.observe(s));
+    }
+    const lightbox = root.querySelector('[data-event-lightbox]');
+    const largeImage = root.querySelector('[data-event-large-image]');
+    root.querySelectorAll('[data-gallery-image]').forEach((button) => {
+      button.addEventListener('click', () => {
+        if (!(button instanceof HTMLElement) || !(largeImage instanceof HTMLImageElement) || !(lightbox instanceof HTMLDialogElement)) return;
+        largeImage.src = button.dataset.galleryImage || '';
+        lightbox.showModal();
+      });
+    });
+    if (lightbox instanceof HTMLDialogElement) lightbox.addEventListener('click', (event) => {if(event.target===lightbox) lightbox.close();});
+  });
+</script>
+<style>
+  .event-prototype{--event-line:var(--border);--event-muted:var(--foreground-muted);--event-card:var(--card);color:var(--foreground)}
+  .proto-notice{display:flex;align-items:center;justify-content:center;gap:.6rem;min-height:34px;padding:.35rem 1rem;background:var(--foreground);color:var(--background);font-size:.68rem;letter-spacing:.12em;font-weight:850;text-align:center}
+  .notice-dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  .event-hero{position:relative;overflow:hidden;background:var(--background-secondary);border-bottom:1px solid var(--border)}
+  .hero-backdrop{position:absolute;inset:0;background-image:linear-gradient(to right,var(--border) 1px,transparent 1px),linear-gradient(to bottom,var(--border) 1px,transparent 1px);background-size:46px 46px;opacity:.33;mask-image:linear-gradient(to bottom,black,transparent)}
+  .event-hero-inner{position:relative;padding-top:2.1rem;padding-bottom:4.6rem}
+  .event-crumb{font-size:.78rem;color:var(--foreground-muted);font-weight:700;margin-bottom:3.5rem}
+  .hero-layout{display:grid;grid-template-columns:1.4fr .65fr;gap:3rem;align-items:center}
+  .event-hero h1,.event-section h2{font-family:var(--theme-font-display);letter-spacing:-.046em;line-height:1.07}
+  .event-hero h1{font-size:clamp(2.7rem,5.2vw,4.75rem);margin:0;max-width:820px}
+  .event-hero .lead{font-size:clamp(1.02rem,1.6vw,1.22rem);color:var(--event-muted);max-width:700px;line-height:1.7;margin:1.65rem 0 0}
+  .hero-buttons,.join-buttons{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:2rem}
+  .hero-buttons .button{gap:1rem}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:1.8rem;font-size:.85rem;color:var(--foreground-secondary);font-weight:720;margin-top:2.1rem}
+  .hero-art{height:340px;position:relative;isolation:isolate}
+  .orbit{position:absolute;inset:0;border:1px solid color-mix(in oklab,var(--accent) 40%,var(--border));border-radius:50%;transform:rotate(-35deg) scale(.93)}
+  .orbit.two{transform:rotate(35deg) scale(.66)}
+  .art-glow{position:absolute;inset:25% 15%;background:var(--accent);filter:blur(85px);opacity:.16;z-index:-1}
+  .art-square{position:absolute;display:grid;place-items:center;font-family:var(--theme-font-display);font-weight:850;border-radius:22px;box-shadow:0 16px 40px color-mix(in oklab,var(--foreground) 15%,transparent)}
+  .art-square.a{width:132px;height:132px;top:20%;left:8%;background:var(--foreground);color:var(--background);font-size:4.8rem;transform:rotate(-11deg)}
+  .art-square.b{width:148px;height:148px;top:32%;left:46%;background:var(--accent);color:white;font-size:3.1rem;transform:rotate(10deg)}
+  .art-square.c{width:83px;height:83px;top:5%;right:8%;background:var(--background);border:1px solid var(--border);color:var(--accent);font-size:2rem;transform:rotate(8deg)}
+  .art-caption{position:absolute;bottom:2%;left:20%;letter-spacing:.18em;font-weight:800;color:var(--foreground-muted);font-size:.63rem}
+  .event-columns{display:grid;grid-template-columns:210px minmax(0,1fr);gap:clamp(2.8rem,6vw,7.3rem);align-items:start;padding-top:2.4rem}
+  .aside-sticky{position:sticky;top:96px;padding-bottom:3rem}
+  .aside-title{font-size:.66rem;text-transform:uppercase;letter-spacing:.14em;font-weight:850;color:var(--foreground-muted);margin:0 0 1.2rem 1rem}
+  .event-side-nav{display:grid;gap:.26rem;border-left:1px solid var(--border);padding-left:.25rem}
+  .event-side-link{display:flex;gap:.8rem;align-items:center;padding:.7rem .9rem;color:var(--foreground-muted);font-size:.82rem;font-weight:720;border-left:3px solid transparent;margin-left:-.4rem;transition:background .15s,color .15s}
+  .event-side-link:hover{color:var(--foreground);background:var(--background-secondary)}
+  .event-side-link.selected{border-left-color:var(--accent);color:var(--foreground);background:var(--background-secondary)}
+  .side-icon{width:18px;text-align:center;font-size:1rem;color:var(--accent)}
+  .aside-card{margin-top:2rem;border:1px solid var(--border);padding:1.15rem;border-radius:calc(var(--radius)*1.5);background:var(--background-secondary);display:grid;gap:.4rem}
+  .aside-card strong{font-family:var(--theme-font-display);font-size:1.1rem}
+  .aside-card small{color:var(--event-muted);line-height:1.65;font-size:.72rem}
+  .event-main{min-width:0}
+  .event-section{scroll-margin-top:110px;padding:3.5rem 0 4.2rem;border-bottom:1px solid var(--border)}
+  .event-section:first-child{padding-top:1.15rem}
+  .event-section:last-child{border:0}
+  .event-section .eyebrow{font-size:.7rem;margin-bottom:.9rem}
+  .event-section h2{font-size:clamp(2rem,3.4vw,3.05rem);max-width:690px;margin:0}
+  .section-lead{margin:1.1rem 0 2.1rem;max-width:680px;color:var(--foreground-muted);font-size:1rem;line-height:1.75}
+  .phase-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}
+  .phase-card,.resource-card,.practical-card{background:var(--background-secondary);border:1px solid var(--border);padding:1.35rem;border-radius:calc(var(--radius)*1.5)}
+  .phase-number{font-size:.75rem;color:var(--accent);font-weight:900}
+  .phase-card h3{font-family:var(--theme-font-display);font-size:1.2rem;margin:.7rem 0 .3rem}
+  .phase-card p,.resource-card p,.practical-card p{font-size:.83rem;color:var(--event-muted);line-height:1.65;margin:.2rem 0 0}
+  .mini-stats{display:flex;flex-wrap:wrap;gap:2.5rem;margin-top:2.4rem;color:var(--event-muted);font-size:.78rem;font-weight:800}
+  .mini-stats strong{font-family:var(--theme-font-display);font-size:1.8rem;color:var(--foreground);margin-right:.4rem}
+  .agenda-tabs{display:flex;gap:.35rem;padding:.25rem;border:1px solid var(--border);background:var(--background-secondary);border-radius:12px;max-width:max-content;margin-bottom:1.4rem}
+  .tab{border:0;background:none;color:var(--event-muted);border-radius:9px;padding:.6rem 1rem;cursor:pointer;font-size:.82rem;font-weight:750}
+  .tab:hover{color:var(--foreground)}
+  .tab.is-active{color:var(--primary-foreground);background:var(--primary)}
+  .agenda-list{display:grid}
+  .agenda-session{display:grid;grid-template-columns:85px minmax(0,1fr);gap:1.35rem;padding:1.4rem .25rem;border-bottom:1px solid var(--border)}
+  .agenda-session[hidden]{display:none}
+  .agenda-session:last-child{border:0}
+  .session-time{display:grid;align-content:start;gap:.2rem}
+  .session-time strong{font-family:var(--theme-font-display);font-size:1.18rem}
+  .session-time small{color:var(--event-muted);font-size:.75rem}
+  .topic-tag{display:inline-flex;border:1px solid color-mix(in oklab,var(--accent) 30%,var(--border));background:color-mix(in oklab,var(--accent) 9%,var(--background));color:var(--accent);padding:.2rem .55rem;font-size:.68rem;font-weight:850;border-radius:999px}
+  .session-body h3{margin:.55rem 0 .35rem;font-family:var(--theme-font-display);font-size:1.33rem;letter-spacing:-.025em;line-height:1.25}
+  .session-speaker{margin:0;color:var(--event-muted);font-size:.81rem}
+  .session-body details{margin-top:.7rem;color:var(--foreground-muted);font-size:.82rem}
+  .session-body details summary{cursor:pointer;color:var(--foreground);font-weight:760;list-style:none}
+  .session-body details summary::-webkit-details-marker{display:none}
+  .session-body details summary span{margin-left:.35rem;color:var(--accent)}
+  .session-body details p{line-height:1.6;padding:.2rem 0}
+  .speakers-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+  .speaker-card{border:1px solid var(--border);overflow:hidden;border-radius:calc(var(--radius)*1.5);background:var(--card)}
+  .speaker-image{height:160px;position:relative;display:grid;place-items:center;overflow:hidden;background:#e7e7e7}
+  .speaker-tone-0{background:linear-gradient(145deg,#fbe3c7,#b7b8c8)}
+  .speaker-tone-1{background:linear-gradient(145deg,#c4d8e2,#f8bfa7)}
+  .speaker-tone-2{background:linear-gradient(145deg,#d5d3ee,#ddc0b0)}
+  .speaker-tone-3{background:linear-gradient(145deg,#cfe1bf,#c1bce4)}
+  .avatar-glyph{font-size:5rem;line-height:1;font-family:var(--theme-font-display);color:#29242b;font-weight:850;opacity:.8;z-index:2}
+  .speaker-pattern{position:absolute;bottom:-60px;right:-20px;color:#fff;opacity:.5;font-size:10rem}
+  .speaker-info{padding:1rem}
+  .speaker-info h3{font-family:var(--theme-font-display);font-size:1.02rem;letter-spacing:-.02em;margin:0}
+  .speaker-info p{color:var(--event-muted);font-size:.75rem;margin:.35rem 0 0}
+  .resource-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+  .resource-card{padding:1.55rem}
+  .resource-icon{font-size:1.3rem;display:grid;place-items:center;width:44px;height:44px;background:var(--background);border:1px solid var(--border);border-radius:12px;margin-bottom:1.5rem;color:var(--accent)}
+  .small-label{font-size:.65rem;letter-spacing:.1em;color:var(--event-muted);text-transform:uppercase;font-weight:850}
+  .resource-card h3{font-family:var(--theme-font-display);font-size:1.27rem;margin:.35rem 0 .4rem}
+  .resource-status{display:block;border-top:1px solid var(--border);margin-top:1.4rem;padding-top:.8rem;font-weight:800;font-size:.72rem;color:var(--accent)}
+  .gallery-grid{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:155px;gap:.8rem}
+  .gallery-photo{position:relative;overflow:hidden;border:0;padding:0;cursor:zoom-in;border-radius:calc(var(--radius)*1.35);background:var(--background-tertiary)}
+  .gallery-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .25s}
+  .gallery-photo:hover img{transform:scale(1.04)}
+  .gallery-photo-0,.gallery-photo-3{grid-column:span 3}
+  .gallery-photo-1,.gallery-photo-2{grid-column:span 3}
+  .gallery-zoom{position:absolute;right:.65rem;bottom:.65rem;display:grid;place-items:center;background:#ffffffdd;color:#333;border-radius:50%;width:32px;height:32px;font-size:1.15rem}
+  .gallery-credit{color:var(--event-muted);font-size:.7rem;margin:.6rem 0 0}
+  .practical-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}
+  .practical-card{min-width:0;display:flex;flex-direction:column;gap:.5rem}
+  .practical-icon{color:var(--accent);font-size:1.3rem}
+  .practical-card small{color:var(--event-muted);font-size:.72rem}
+  .practical-card strong{font-family:var(--theme-font-display);font-size:1rem}
+  .join-panel{background:var(--foreground);color:var(--background);border-radius:calc(var(--radius)*2);padding:clamp(1.6rem,5vw,3.5rem);position:relative;overflow:hidden}
+  .join-panel .eyebrow{color:var(--accent)}
+  .join-panel h2{max-width:640px}
+  .join-panel p{max-width:640px;opacity:.77;line-height:1.7}
+  .join-panel .button-primary{background:var(--accent);color:white}
+  .join-panel .button-secondary{background:transparent;color:var(--background);border:1px solid color-mix(in oklab,var(--background) 40%,transparent)}
+  .join-panel small{display:block;font-size:.73rem;opacity:.6;margin-top:2rem;line-height:1.6}
+  .event-lightbox{background:var(--background);border:1px solid var(--border);padding:.5rem;border-radius:14px;max-width:min(95vw,1000px);max-height:92vh}
+  .event-lightbox::backdrop{background:#000c}
+  .event-lightbox img{max-width:100%;max-height:80vh;display:block;object-fit:contain}
+  .event-lightbox form{display:flex;justify-content:end}
+  .event-lightbox button{font-size:2rem;background:none;border:0;color:var(--foreground);cursor:pointer}
+  @media(max-width:1020px){.hero-layout{grid-template-columns:1fr .5fr}.hero-art{height:250px}.art-square.a{width:95px;height:95px;font-size:3rem}.art-square.b{width:95px;height:95px;font-size:2rem}.art-square.c{width:60px;height:60px;font-size:1.3rem}.event-columns{grid-template-columns:175px minmax(0,1fr);gap:2.1rem}.speakers-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.speaker-image{height:165px}}
+  @media(max-width:750px){.event-hero-inner{padding-bottom:3rem}.event-crumb{margin-bottom:2rem}.hero-layout{grid-template-columns:1fr}.hero-art{display:none}.event-columns{grid-template-columns:minmax(0,1fr);gap:0;padding-top:0}.event-aside{position:sticky;top:106px;z-index:9;background:var(--background);border-bottom:1px solid var(--border);margin-inline:-1rem;padding:0 1rem;overflow-x:auto}.aside-sticky{position:static;padding:0}.aside-title,.aside-card{display:none}.event-side-nav{display:flex;gap:.15rem;border:0;padding:.4rem 0;white-space:nowrap}.event-side-link{margin:0;padding:.6rem .7rem;border:0;border-radius:8px}.event-side-link.selected{box-shadow:inset 0 -2px var(--accent)}.event-section{scroll-margin-top:205px;padding:3rem 0}.phase-grid{grid-template-columns:1fr 1fr}.practical-grid{grid-template-columns:1fr 1fr}.gallery-grid{grid-auto-rows:125px}}
+  @media(max-width:520px){.phase-grid,.resource-grid,.practical-grid{grid-template-columns:1fr}.speakers-grid{gap:.65rem}.speaker-image{height:130px}.speaker-info{padding:.7rem}.speaker-info h3{font-size:.9rem}.gallery-grid{gap:.45rem;grid-auto-rows:110px}.hero-meta{gap:.7rem}.agenda-session{grid-template-columns:65px minmax(0,1fr);gap:.6rem}.session-body h3{font-size:1.15rem}.agenda-tabs{max-width:100%;width:100%}.tab{flex:1;padding:.6rem .35rem;font-size:.74rem}}
+</style>

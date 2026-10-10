@@ -8,7 +8,7 @@ language: fr-CA
 source_of_truth: true
 translation_key: events
 translation_status: source
-updated: "2026-10-06"
+updated: "2026-10-09"
 nav_label: "Événements"
 nav_order: 2
 hero_eyebrow: "Rencontres · Conférences · Partage"
@@ -41,5 +41,4 @@ Quand le calendrier le permet, les rencontres se prolongent autour d’un dîner
 La scène est ouverte à toute personne ayant une expérience utile à partager : projet, migration, échec instructif, automatisation, architecture, adoption, gouvernance ou expérimentation.
 
 - [Consulter l’agenda complet GUM365 sur Mobilizon](https://gum365.ca)
-- [Retrouver la communauté GUM365 sur Meetup](https://www.meetup.com/gum365/)
 - [Soumettre une session sur Sessionize](https://sessionize.com/gum365-communitydays-trimestriels/)

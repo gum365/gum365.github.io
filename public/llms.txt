@@ -1,0 +1,45 @@
+# GUM365
+
+> GUM365 is the Microsoft 365 user community in Montréal. It brings practitioners together around Microsoft 365, SharePoint, Teams, Power Platform, Copilot, AI, information governance, knowledge architecture and modern collaboration.
+
+Primary editorial language: French Canadian (fr-CA)
+English translation: Canadian English (en-CA)
+Community and event platform: https://gum365.ca
+Source repository: https://github.com/gum365/gum365.github.io
+
+## Main pages
+
+- [Accueil / Home](https://gum365.github.io/): French Canadian home page, community mission and next event.
+- [Communauté](https://gum365.github.io/communaute/): Mission, topics and community principles.
+- [Événements](https://gum365.github.io/evenements/): GUM365 event formats and live upcoming events from Mobilizon.
+- [Partenaires](https://gum365.github.io/partenaires/): Partnership program and ways to support the community.
+- [À propos](https://gum365.github.io/a-propos/): About GUM365.
+- [English home](https://gum365.github.io/en-ca/): Canadian English home page.
+- [Community](https://gum365.github.io/en-ca/community/): English community page.
+- [Events](https://gum365.github.io/en-ca/events/): English events page.
+- [Partners](https://gum365.github.io/en-ca/partners/): English partnership page.
+- [About](https://gum365.github.io/en-ca/about/): English about page.
+
+## Events and community
+
+- [GUM365 Mobilizon](https://gum365.ca): Source of truth for upcoming events, dates, locations, organizers and event pages.
+- Upcoming events shown on the Astro site are loaded dynamically from the Mobilizon GraphQL API.
+- The Astro site should not be treated as a second source of truth for event details.
+
+## Speaking
+
+- [Sessionize call for speakers](https://sessionize.com/gum365-communitydays-trimestriels/): Session submissions when the call is active.
+
+## Public development
+
+- [GUM365 GitHub organization](https://github.com/gum365)
+- [GUM365 website repository](https://github.com/gum365/gum365.github.io)
+
+## Key concepts
+
+- GUM365 means Groupe des Usagers de Microsoft 365.
+- The community is based in Montréal, Québec, Canada.
+- The brand promise is: Apprendre. Partager. Se rencontrer. / Learn. Share. Meet.
+- GUM365 is community-first and practitioner-led.
+- Partners support the community but do not control editorial programming.
+- French Canadian is the editorial source of truth; English Canadian pages are linked translations.

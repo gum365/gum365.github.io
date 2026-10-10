@@ -6,6 +6,24 @@ Le changelog est basé sur les PR du dépôt `gum365/gum365.github.io`. À parti
 
 ## Non publié
 
+### Documentation complète de l’architecture, de la maintenance et du branding
+
+PR : [#8](https://github.com/gum365/gum365.github.io/pull/8)
+
+Changements :
+
+- remplacement du README par un point d’entrée complet pour comprendre et maintenir le site,
+- ajout du répertoire `docs/`,
+- documentation de l’architecture Astro + OKF,
+- guide de maintenance des contenus FR_CA et EN_CA,
+- formalisation de la stratégie de branding,
+- création d’un brand kit basé sur les tokens et composants réellement utilisés,
+- documentation de Mobilizon et des intégrations externes,
+- documentation du build et du déploiement GitHub Pages,
+- documentation du SEO technique et de la découverte par assistants IA,
+- ajout de `public/llms.txt`,
+- mise en place du présent changelog comme règle de gouvernance du projet.
+
 ### Gouvernance
 
 - Toute future PR doit mettre à jour ce changelog.

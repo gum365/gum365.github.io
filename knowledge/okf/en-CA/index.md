@@ -2,21 +2,21 @@
 type: page
 id: home
 title: "GUM365 — The Microsoft 365 community in Montréal"
-description: "GUM365 brings the Microsoft 365 community together in Montréal through meetups, technical conferences, AI, SharePoint, Power Platform and modern collaboration."
+description: "GUM365 brings the Microsoft 365 community together in Montréal through community events, technical conferences, AI, SharePoint, Power Platform and modern collaboration."
 slug: "en-ca"
 language: en-CA
 source_of_truth: false
 translation_key: home
 translation_of: "../fr-CA/index.md"
 translation_status: validated
-updated: "2026-09-30"
+updated: "2026-10-09"
 nav_label: "Home"
 nav_order: 0
 hero_eyebrow: "Community · Montréal · Microsoft 365"
 hero_title: "Learn. Share. Meet."
 hero_lead: "GUM365 brings Microsoft 365 professionals, practitioners and enthusiasts together in Montréal to talk about real work, technology and transformation — without losing the human side of community."
-primary_label: "Join the Meetup group"
-primary_url: "https://www.meetup.com/gum365/"
+primary_label: "Join the community"
+primary_url: "https://gum365.ca"
 secondary_label: "View events"
 secondary_url: "/en-ca/events/"
 ---
@@ -47,6 +47,6 @@ Visit the [Sessionize call for speakers](https://sessionize.com/gum365-community
 
 ## Stay connected
 
-- [GUM365 on Meetup](https://www.meetup.com/gum365/) for upcoming gatherings.
+- [GUM365 on Mobilizon](https://gum365.ca) for upcoming events and community activity.
 - [Sessionize](https://sessionize.com/gum365-communitydays-trimestriels/) for calls for speakers.
 - [GUM365 on GitHub](https://github.com/gum365) for public community projects.

@@ -6,6 +6,16 @@ Le changelog est basé sur les PR du dépôt `gum365/gum365.github.io`. À parti
 
 ## Non publié
 
+### Prototype OnePage événement bilingue (PR de démonstration)
+
+- Ajout d'un composant réutilisable avec navigation latérale sticky et adaptation mobile.
+- Agenda fictif filtrable, détails de session, fiches conférenciers, ressources et galerie interactive.
+- Routes de prototype FR_CA et EN_CA séparées de la navigation de production.
+- Conservation des polices, couleurs, thème clair/sombre et en-tête Velocity existants.
+- Documentation du futur branchement Mobilizon, Sessionize et billetterie.
+- Contenus fictifs signalés, aucune inscription ni document réel.
+
+
 ### Documentation complète de l’architecture, de la maintenance et du branding
 
 PR : [#8](https://github.com/gum365/gum365.github.io/pull/8)

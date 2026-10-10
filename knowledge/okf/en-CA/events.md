@@ -9,10 +9,10 @@ source_of_truth: false
 translation_key: events
 translation_of: "../fr-CA/evenements.md"
 translation_status: validated
-updated: "2026-10-06"
+updated: "2026-10-09"
 nav_label: "Events"
 nav_order: 2
-hero_eyebrow: "Meetups · Conferences · Sharing"
+hero_eyebrow: "Events · Conferences · Sharing"
 hero_title: "Community grows when people meet."
 hero_lead: "From technical mornings to AI events, GUM365 favours accessible, practical formats designed for real conversations."
 primary_label: "View all events"
@@ -27,7 +27,7 @@ secondary_url: "https://sessionize.com/gum365-communitydays-trimestriels/"
 
 Each edition brings speakers and attendees together around technical sessions, demonstrations and practitioner experience.
 
-Upcoming meetups are published in **Mobilizon**, GUM365’s event platform. The list displayed above is loaded directly from `gum365.ca`, keeping dates, locations and event status current without duplicating event information in this site.
+Upcoming events are published in **Mobilizon**, GUM365’s event platform. The list displayed above is loaded directly from `gum365.ca`, keeping dates, locations and event status current without duplicating event information in this site.
 
 ## AI Community Days
 
@@ -42,5 +42,4 @@ When scheduling allows, events continue over lunch or a **SharePint**. This is o
 The stage is open to anyone with useful experience to share: projects, migrations, instructive failures, automation, architecture, adoption, governance or experimentation.
 
 - [Browse the complete GUM365 calendar on Mobilizon](https://gum365.ca)
-- [Find the GUM365 community on Meetup](https://www.meetup.com/gum365/)
 - [Submit a session on Sessionize](https://sessionize.com/gum365-communitydays-trimestriels/)

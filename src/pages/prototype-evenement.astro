@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EventOnePagePrototype from '../components/EventOnePagePrototype.astro';
+import { getPages, getNav } from '../lib/site';
+
+const pages = await getPages();
+const events = pages.find((p) => p.data.translation_key === 'events' && p.data.language === 'fr-CA');
+if (!events) throw new Error('Missing French GUM365 events entry.');
+---
+<BaseLayout
+  title="Prototype OnePage événement — GUM365"
+  description="Prototype de l'expérience événementielle GUM365 : programme, conférenciers, ressources, galerie et inscription."
+  lang="fr-CA"
+  nav={getNav(events, pages)}
+  currentHref="/prototype-evenement/"
+  alternateHref="/en-ca/event-prototype/"
+>
+  <EventOnePagePrototype language="fr-CA" />
+</BaseLayout>
